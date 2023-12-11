@@ -1,0 +1,92 @@
+/* patientRecord.fxml Styling */
+#patientRec, #patientHis, #removedPatient {
+    -fx-padding: 10 30 30 30;
+}
+
+#leftPane {
+    -fx-background-color: rgb(6, 36, 39, 0.8);
+    -fx-min-width: 219px;
+    -fx-background-radius: 33 20 20 33;
+    -fx-padding: 10px;
+}
+
+#rightPane {
+    -fx-background-color: #D7E3E3;
+    -fx-min-width: 1077px;
+    -fx-background-radius: 20 33 33 20;
+}
+
+#right {
+    -fx-margin: 0 0 0 10px;
+}
+
+#Menu Label{
+    -fx-text-fill: #F9FBFB;
+    -fx-font-size: 14;
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+}
+
+#Menu Button{
+    -fx-background-color: none;
+    -fx-background-radius: 15;
+    -fx-text-fill: #F9FBFB;
+    -fx-font-size: 14;
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 400;
+}
+
+#Menu Button:hover{
+    -fx-background-color: rgb(255, 255, 255, 0.05);
+    -fx-cursor: hand;
+}
+
+#Menu .active{
+    -fx-background-color: rgb(255, 255, 255, 0.05);
+}
+
+#HospitalNameTag{
+    -fx-background-radius: 25 15 15 15;
+    -fx-background-color:#0D3E4A;
+}
+
+/* fxml */
+
+/* customToolBar Styling */
+.custom-title-bar{
+    -fx-max-height: 40px;
+}
+
+.lefty{
+    -fx-alignment: center-left;
+    -fx-padding: 0 0 0 20px;
+}
+
+.righty{
+    -fx-alignment: center-right;
+    -fx-padding: 0 20px 0 0;
+}
+
+.custom-title-bar .minBTN:hover{
+    -fx-background-color: rgb(46, 84, 87);
+}
+
+.custom-title-bar .closeBTN:hover{
+    -fx-background-color: rgb(232, 17, 35);
+}
+
+.custom-title-bar Button{
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-text-fill: white;
+    -fx-background-color: none;
+    -fx-padding: 7px 12px;
+    -fx-cursor: hand;
+}
+
+.custom-title-bar Label{
+    -fx-text-fill: white;
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 400;
+    -fx-font-size: 14;
+}

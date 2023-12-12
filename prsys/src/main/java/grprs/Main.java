@@ -84,8 +84,8 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("patientHistory.fxml"));
         Parent root = loader.load();
 
-        controller = loader.getController();
-        controller.setMainApp(this);
+        // controller = loader.getController();
+        // controller.setMainApp(this);
 
         StackPane composite = new StackPane(bgIMG, blurIMG, bgOverlay, root, customTitleBar, myMenuBarContainer);
 
@@ -97,11 +97,6 @@ public class Main extends Application {
         stage.centerOnScreen();
         stage.show();
     }
-
-    public Controller getController() {
-        return controller;
-    }
-
 
     // navigation menu (must be done later)
     private VBox menuList (Stage stage){

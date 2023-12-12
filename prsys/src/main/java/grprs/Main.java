@@ -13,6 +13,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -22,19 +23,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
     double W = 1366;
     double H = 716;
     private StackPane composite;
     private Controller controller;
+    private Stage stage;
+    private AnchorPane rootLayout;
 
     @Override
     public void start(Stage stage) throws IOException {
+        // navigation bar menu
+        VBox myMenuBarContainer = menuList(stage);
+        
         // custom titlebar styling
         HBox customTitleBar = CustomTitleBar(stage);
-        StackPane cusTB = new StackPane();
-        cusTB.getChildren().add(customTitleBar);
 
         // titlebar icon anf label
         Image image = new Image("/assets/iconPRS.png");
@@ -82,7 +87,7 @@ public class Main extends Application {
         controller = loader.getController();
         controller.setMainApp(this);
 
-        composite = new StackPane(bgIMG, blurIMG, bgOverlay, cusTB, root);
+        StackPane composite = new StackPane(bgIMG, blurIMG, bgOverlay, root, customTitleBar, myMenuBarContainer);
 
         Scene scene = new Scene(composite, W, H);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
@@ -95,6 +100,35 @@ public class Main extends Application {
 
     public Controller getController() {
         return controller;
+    }
+
+
+    // navigation menu (must be done later)
+    private VBox menuList (Stage stage){
+        Label hospitalNameTag = new Label("OSPA Leyte");
+
+        // icons
+        Image hisotryIcon = new Image(getClass().getResourceAsStream("/assets/PatientHistoryIcon.png"));
+        ImageView myIcon1 = new ImageView(hisotryIcon);
+        Image recordIcon = new Image(getClass().getResourceAsStream("/assets/patientRecordIcon.png"));
+        ImageView myIcon2 = new ImageView(recordIcon);
+        Image removedIcon = new Image(getClass().getResourceAsStream("/assets/RemovedPatientIcon.png"));
+        ImageView myIcon3 = new ImageView(removedIcon);
+
+        Button patientHistoryBTN = new Button("Patient History");
+        Button patientRecordBTN = new Button("Patient Record");
+        Button removedPatientBTN = new Button("Removed Patient");
+
+        VBox label = new VBox(hospitalNameTag);
+        VBox menuBarList = new VBox(patientHistoryBTN, patientRecordBTN, removedPatientBTN);
+
+        VBox myMenuBarContainer = new VBox(label, menuBarList);
+        myMenuBarContainer.setAlignment(Pos.TOP_CENTER);
+        myMenuBarContainer.getStyleClass().add("MenuListBar");
+
+        StackPane.setAlignment(myMenuBarContainer, Pos.CENTER_LEFT);
+
+        return myMenuBarContainer;
     }
 
     void switchView(String fxmlFileName) throws IOException {

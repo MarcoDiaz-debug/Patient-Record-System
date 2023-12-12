@@ -3,11 +3,47 @@
     -fx-padding: 10 30 30 30;
 }
 
-#leftPane {
+.MenuListBar {
     -fx-background-color: rgb(6, 36, 39, 0.8);
-    -fx-min-width: 219px;
+    -fx-max-width: 219px;
+    -fx-max-height: 636px;
+    -fx-translate-x: 30;
+    -fx-translate-y: 10;
     -fx-background-radius: 33 20 20 33;
     -fx-padding: 10px;
+    -fx-spacing: 10;
+}
+
+.MenuListBar Label{
+    -fx-max-width: "Infinity";
+    -fx-pref-height: 53;
+    -fx-text-fill: #F9FBFB;
+    -fx-font-size: 14;
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-background-radius: 25 15 15 15;
+    -fx-background-color:#0D3E4A;
+    -fx-alignment: center;
+}
+
+.MenuListBar Button:hover{
+    -fx-background-color: rgb(255, 255, 255, 0.05);
+    -fx-cursor: hand;
+}
+
+.MenuListBar .active{
+    -fx-background-color: rgb(255, 255, 255, 0.05);
+}
+
+.MenuListBar Button{
+    -fx-pref-height: 53;
+    -fx-max-width: "Infinity";
+    -fx-background-color: none;
+    -fx-background-radius: 15;
+    -fx-text-fill: #F9FBFB;
+    -fx-font-size: 14;
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 400;
 }
 
 #rightPane {
@@ -18,36 +54,6 @@
 
 #right {
     -fx-margin: 0 0 0 10px;
-}
-
-#Menu Label{
-    -fx-text-fill: #F9FBFB;
-    -fx-font-size: 14;
-    -fx-font-family: 'Montserrat';
-    -fx-font-weight: 700;
-}
-
-#Menu Button{
-    -fx-background-color: none;
-    -fx-background-radius: 15;
-    -fx-text-fill: #F9FBFB;
-    -fx-font-size: 14;
-    -fx-font-family: 'Montserrat';
-    -fx-font-weight: 400;
-}
-
-#Menu Button:hover{
-    -fx-background-color: rgb(255, 255, 255, 0.05);
-    -fx-cursor: hand;
-}
-
-#Menu .active{
-    -fx-background-color: rgb(255, 255, 255, 0.05);
-}
-
-#HospitalNameTag{
-    -fx-background-radius: 25 15 15 15;
-    -fx-background-color:#0D3E4A;
 }
 
 /* fxml */

@@ -11,22 +11,10 @@
 <?import javafx.scene.image.Image?>
 
 <BorderPane fx:controller="grprs.Controller" translateY='20' maxHeight="676" prefWidth="1366" fx:id="patientHis" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@styles.css">
-    <left>
-        <HBox fx:id="left">
-            <StackPane fx:id="leftPane">
-                <VBox fx:id="Menu" spacing="10">
-                    <Label fx:id="HospitalNameTag" text="OSPA Leyte" alignment="CENTER" prefHeight="53" maxWidth="Infinity"/>
-                    <Button styleClass="active" prefHeight="53" maxWidth="Infinity" text="Patient History" onAction="#patientHistory"/>
-                    <Button prefHeight="53" maxWidth="Infinity" text="Patient Record" onAction="#patientRecord"/>
-                    <Button prefHeight="53" maxWidth="Infinity" text="Removed Patient" onAction="#RemovedPatient"/>
-                </VBox>
-            </StackPane>
-        </HBox>
-    </left>
     <right>
         <HBox fx:id="right">
             <StackPane fx:id="rightPane">
-            
+                <Text text="Hello World"></Text>
             </StackPane>
         </HBox>
     </right>

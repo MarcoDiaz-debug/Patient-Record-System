@@ -116,8 +116,11 @@ public class Main extends Application {
         ImageView myIcon3 = new ImageView(removedIcon);
 
         Button patientHistoryBTN = new Button("Patient History");
+        patientHistoryBTN.setGraphic(myIcon1);
         Button patientRecordBTN = new Button("Patient Record");
+        patientRecordBTN.setGraphic(myIcon2);
         Button removedPatientBTN = new Button("Removed Patient");
+        removedPatientBTN.setGraphic(myIcon3);
 
         VBox label = new VBox(hospitalNameTag);
         VBox menuBarList = new VBox(patientHistoryBTN, patientRecordBTN, removedPatientBTN);

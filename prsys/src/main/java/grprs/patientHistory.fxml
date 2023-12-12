@@ -14,7 +14,7 @@
     <right>
         <HBox fx:id="right">
             <StackPane fx:id="rightPane">
-                <Text text="Hello World"></Text>
+                <Text text="Bagsakan na"></Text>
             </StackPane>
         </HBox>
     </right>

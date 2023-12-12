@@ -44,6 +44,7 @@
     -fx-font-size: 14;
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 400;
+    -fx-alignment: left;
 }
 
 #rightPane {

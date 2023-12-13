@@ -28,22 +28,18 @@ import javafx.scene.layout.AnchorPane;
 public class Main extends Application {
     double W = 1366;
     double H = 716;
-    private StackPane composite;
-    private Controller controller;
-    private Stage stage;
-    private AnchorPane rootLayout;
 
     @Override
     public void start(Stage stage) throws IOException {
         // navigation bar menu
         VBox myMenuBarContainer = menuList(stage);
         
-        // custom titlebar styling
+        // custom titleebar styling
         HBox customTitleBar = CustomTitleBar(stage);
 
         // titlebar icon anf label
-        Image image = new Image("/assets/iconPRS.png");
-        stage.getIcons().add(image);
+        Image appIcon = new Image("/assets/iconPRS.png");
+        stage.getIcons().add(appIcon);
         stage.setTitle("OSPA Patient Record System");
         stage.initStyle(StageStyle.UNDECORATED);
 
@@ -84,9 +80,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("patientHistory.fxml"));
         Parent root = loader.load();
 
-        // controller = loader.getController();
-        // controller.setMainApp(this);
-
+        // calling all avengers
         StackPane composite = new StackPane(bgIMG, blurIMG, bgOverlay, root, customTitleBar, myMenuBarContainer);
 
         Scene scene = new Scene(composite, W, H);
@@ -127,15 +121,6 @@ public class Main extends Application {
         StackPane.setAlignment(myMenuBarContainer, Pos.CENTER_LEFT);
 
         return myMenuBarContainer;
-    }
-
-    void switchView(String fxmlFileName) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
-        Parent newRoot = loader.load();
-
-        // Update the center content of the StackPane
-        StackPane.setAlignment(newRoot, Pos.CENTER);
-        composite.getChildren().set(composite.getChildren().size() - 1, newRoot);
     }
 
     private HBox CustomTitleBar(Stage stage) {

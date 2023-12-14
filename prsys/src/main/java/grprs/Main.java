@@ -24,6 +24,9 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 
 public class Main extends Application {
     double W = 1366;
@@ -31,12 +34,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // navigation bar menu
         VBox myMenuBarContainer = menuList(stage);
-        
-        // custom titleebar styling
         HBox customTitleBar = CustomTitleBar(stage);
-
+        HBox container = patientRecord(stage);
+        
         // titlebar icon anf label
         Image appIcon = new Image("/assets/iconPRS.png");
         stage.getIcons().add(appIcon);
@@ -77,13 +78,13 @@ public class Main extends Application {
         bgIMG.setClip(bgIMGpanel);
 
         // File Sections
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("patientHistory.fxml"));
-        Parent root = loader.load();
+        // FXMLLoader loader = new FXMLLoader(getClass().getResource("patientHistory.fxml"));
+        // Parent root = loader.load();
 
         // calling all avengers
-        StackPane composite = new StackPane(bgIMG, blurIMG, bgOverlay, root, customTitleBar, myMenuBarContainer);
+        StackPane composite = new StackPane(bgIMG, blurIMG, bgOverlay, container, customTitleBar, myMenuBarContainer);
 
-        Scene scene = new Scene(composite, W, H);
+        Scene scene = new Scene(composite);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         scene.getStylesheets().add("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
         stage.setScene(scene);
@@ -121,6 +122,31 @@ public class Main extends Application {
         StackPane.setAlignment(myMenuBarContainer, Pos.CENTER_LEFT);
 
         return myMenuBarContainer;
+    }
+
+    // instances 
+    private HBox patientRecord(Stage stage){
+        // variables
+        GridPane myGrid = new GridPane();
+        myGrid.getStyleClass().add("gridPanel");
+        Button mybtn = new Button("Hello World");
+        Label myLabel = new Label("zzz");
+
+        GridPane.setRowIndex(mybtn, 0);
+        GridPane.setColumnIndex(mybtn, 1);
+        GridPane.setConstraints(myLabel, 2, 0);
+
+        // calling all variables
+        myGrid.getChildren().addAll(mybtn, myLabel);
+
+        HBox container = new HBox(myGrid);
+
+        container.getStyleClass().add("patientRecord");
+        container.setAlignment(Pos.CENTER);
+       
+        StackPane.setAlignment(container, Pos.CENTER_LEFT);
+       
+        return container;
     }
 
     private HBox CustomTitleBar(Stage stage) {

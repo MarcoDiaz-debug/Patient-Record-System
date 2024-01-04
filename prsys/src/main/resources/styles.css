@@ -45,7 +45,7 @@
 
 .mainContentLayout{
     -fx-spacing: 10;
-    -fx-padding: 50 30 30 30;
+    -fx-padding: 50 30 25 30;
 }
 
 .patientHistoryStyle, .patientRecordStyle {
@@ -71,8 +71,12 @@
     -fx-background-radius: 15 36 36 36;
     -fx-padding: 0 17;
     -fx-background-color: white;
-    -fx-text-fill: #3E3E3E;
     -fx-font-family: 'Montserrat';
+    -fx-font-size: 14;
+}
+
+.dateBoldText{
+    -fx-font-weight: 700;
 }
 
 .patientRecordStyle #dayText{
@@ -93,16 +97,15 @@
 
 #prMainContentPanel{
     -fx-vgap: 10;
-    -fx-vgap: 5;
 }
 
 #prMainContentPanel Label{
-    -fx-font-weight: 600;
-    -fx-font-size: 12;
-    -fx-text-fill: #949494;
+    -fx-font-weight: 700;
+    -fx-font-size: 12.5;
+    -fx-text-fill: #747474;
 }
 
-.textFields{
+.textFields, #textFieldRow{
     -fx-font-weight: 400;
     -fx-padding: 10 15;
     -fx-border-radius: 13;
@@ -110,46 +113,98 @@
     -fx-border-color: #ADAEAE;
 }
 
-.row-3s, .row-f7{
-    -fx-max-width: 175;
+.row-pair3{
+    -fx-min-width: 275;
+    -fx-font-weight: 400;
+    -fx-padding: 6 6 6 10;
+    -fx-border-radius: 13;
+    -fx-background-color: none;
+    -fx-border-color: #ADAEAE;
 }
 
-.row-pair2{
-    -fx-min-width: 271;
+.row-pair3 .text-field{
+    -fx-background-color: transparent;
+}
+
+.row-3s, .row-f7, .row-f4, .row-f6{
+    -fx-max-width: 176.33;
+}   
+
+.row-pair2, #textFieldRow{
+    -fx-min-width: 275;
 }
 
 .row-f4{
-    -fx-max-width: 127;
+    -fx-padding: 6 6 6 10;
 }
 
-.row-f5{
-    -fx-max-width: 131;
+.row-f4 .text-field {
+    -fx-background-color: none;
 }
 
 .row-f6{
-    -fx-max-width: 72;
+    -fx-padding: 6 5 6 10;
 }
+
+.row-f6 .text-field{
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: #e6e6e6;
+    -fx-background-radius: 5;
+    -fx-padding: 5 8;
+    -fx-cursor: hand;
+}
+
+.combo-box .text-field{
+    -fx-cursor: pointer;
+}
+
+.combo-box .list-view .list-cell{
+    -fx-cursor: hand;
+}
+
+#calendar .text-field{
+    -fx-cursor: pointer;
+}
+
+#calendar .arrow-button {
+    -fx-background-color: #e6e6e6;
+    -fx-background-radius: 5;
+    -fx-padding: 5 8;
+    -fx-cursor: hand;
+}
+
 
 .row-f11{
     -fx-max-width: 95;
 }
 
 .row-f12{
-    -fx-max-width: 156;
+    -fx-max-width: 166;
 }
 
-.row-pair1{
-    -fx-max-width: 126;
+.row-f13, .row-f14{
+    -fx-max-width: 130;
 }
 
-#heroImgCircle{
-    -fx-background-color: rgba(16, 91, 106, 0.5);
+.row-f13{
+    -fx-padding: 6 6 6 10;
+}
+
+.row-f13 .text-field{
+    -fx-background-color: transparent;
 }
 
 #imgContainer{
     -fx-background-radius: 27;
-    -fx-padding: 53.5 58 0 58;
-    -fx-background-color: white;
+    -fx-padding: 53.5 58 53.5 58;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #F6F9F9, #74969D);
+}
+
+#bgCircle {
+    -fx-fill: rgba(16, 91, 106, 0.5);
 }
 
 #prMainContentPanel{
@@ -175,6 +230,10 @@
     -fx-padding: 10 13; 
 }
 
+.activeProcessing{
+    -fx-fill: #105B6A;
+}
+
 #phasingIndicator Label{
     -fx-border-color: #C5C5C5;
     -fx-text-fill: #C5C5C5;
@@ -191,8 +250,16 @@
     -fx-fill: #C5C5C5;
 }
 
+#circle-active Circle{
+    -fx-fill: #105B6A;
+}
+
+#circle-deactivate Circle{
+    -fx-fill: #C5C5C5;
+}
+
 #prPanel6{
-    -fx-padding: 15 0 0 0;
+    -fx-padding: 20 0 0 0;
 }
 
 #chatBotBTN{
@@ -216,7 +283,8 @@
     -fx-padding: 10;
     -fx-border-color: #ADAEAE;
     -fx-border-radius: 13;
-    -fx-text-fill: #ADAEAE;
+    -fx-text-fill: #3E3E3E;
+    -fx-cursor: hand;
 }
 
 #checkBoxBTN .box, .mark {
@@ -227,7 +295,17 @@
     -fx-mark-visible: false;
 }
 
-#prsSubmitBTN{
+#prsBTN{
+    -fx-font-weight: 700;
+    -fx-font-size: 12;
+    -fx-text-fill: #949494;
+    -fx-background-color: #E2E5E5;
+    -fx-cursor: pointer;
+    -fx-padding: 12 22;
+    -fx-background-radius: 13;
+}
+
+#backBTN{
     -fx-font-weight: 700;
     -fx-font-size: 12;
     -fx-text-fill: #949494;
@@ -235,6 +313,11 @@
     -fx-cursor: hand;
     -fx-padding: 12 22;
     -fx-background-radius: 13;
+}
+
+#backBTN:hover{
+   -fx-background-color: #105B6A; 
+   -fx-text-fill: #FFFFFF;
 }
 /* end main content */
 

@@ -246,6 +246,7 @@ public class hdGUI extends Application {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private static class DataEntry {
         private String lastName;
         private String firstName;
@@ -274,13 +275,13 @@ public class hdGUI extends Application {
         private String DischargeSummary;
 
         public DataEntry(String lastName, String firstName, String middleInitial,
-                        String DateofBirth, String MRN, String Sex, String PatientNum,
-                        String emerNum, String emailAdd, String Province, String City,
-                        String Address, String MartialStatus, String Occupation,
-                        String Allergies, String CurrentMed, String DateofAdmission,
-                        String HospitalRoomNum, String AttendingPhysician, String Diagnosis,
-                        String ExamFindings, String TreatmentPlan, String Progress,
-                        String DischargeSummary) {
+                String DateofBirth, String MRN, String Sex, String PatientNum,
+                String emerNum, String emailAdd, String Province, String City,
+                String Address, String MartialStatus, String Occupation,
+                String Allergies, String CurrentMed, String DateofAdmission,
+                String HospitalRoomNum, String AttendingPhysician, String Diagnosis,
+                String ExamFindings, String TreatmentPlan, String Progress,
+                String DischargeSummary) {
             this.lastName = lastName;
             this.firstName = firstName;
             this.middleInitial = middleInitial;
@@ -320,102 +321,101 @@ public class hdGUI extends Application {
         }
     }
 
+    private void showThirdStage() {
+        secondaryStage.hide();
 
-private void showThirdStage() {
-    secondaryStage.hide();
+        Label summaryLabel = new Label("Patient's Demographics and Clinical Summary");
+        DataEntry currentData = new DataEntry(lastNameTextField.getText(), firstNameTextField.getText(),
+                middleInitialTextField.getText(), DateofBirthTextField.getText(), MRNTextField.getText(),
+                SexTextField.getText(), PatientNumTextField.getText(), emerNumTextField.getText(),
+                emailAddTextField.getText(), ProvinceTextField.getText(), CityTextField.getText(),
+                AddressTextField.getText(), MartialStatusTextField.getText(), OccupationTextField.getText(),
+                AllergiesTextField.getText(), CurrentMedTextField.getText(), DateofAdmission.getText(),
+                HospitalRoomNum.getText(), AttendingPhysician.getText(), Diagnosis.getText(),
+                ExamFindings.getText(), TreatmentPlan.getText(), Progress.getText(), DischargeSummary.getText());
 
-    Label summaryLabel = new Label("Patient's Demographics and Clinical Summary");
-    DataEntry currentData = new DataEntry(lastNameTextField.getText(), firstNameTextField.getText(),
-            middleInitialTextField.getText(), DateofBirthTextField.getText(), MRNTextField.getText(),
-            SexTextField.getText(), PatientNumTextField.getText(), emerNumTextField.getText(),
-            emailAddTextField.getText(), ProvinceTextField.getText(), CityTextField.getText(),
-            AddressTextField.getText(), MartialStatusTextField.getText(), OccupationTextField.getText(),
-            AllergiesTextField.getText(), CurrentMedTextField.getText(), DateofAdmission.getText(),
-            HospitalRoomNum.getText(), AttendingPhysician.getText(), Diagnosis.getText(),
-            ExamFindings.getText(), TreatmentPlan.getText(), Progress.getText(), DischargeSummary.getText());
+        TextArea dataTextArea = new TextArea();
+        dataTextArea.setEditable(false);
+        dataTextArea.setWrapText(true);
 
-    TextArea dataTextArea = new TextArea();
-    dataTextArea.setEditable(false);
-    dataTextArea.setWrapText(true);
+        dataTextArea.appendText("LastName: " + currentData.lastName + "\n");
+        dataTextArea.appendText("FirstName: " + currentData.firstName + "\n");
+        dataTextArea.appendText("MiddleInitial: " + currentData.middleInitial + "\n");
+        dataTextArea.appendText("DateOfBirth: " + currentData.DateofBirth + "\n");
+        dataTextArea.appendText("MRN: " + currentData.MRN + "\n");
+        dataTextArea.appendText("Sex: " + currentData.Sex + "\n");
+        dataTextArea.appendText("PatientNum: " + currentData.PatientNum + "\n");
+        dataTextArea.appendText("EmerNum: " + currentData.emerNum + "\n");
+        dataTextArea.appendText("EmailAdd: " + currentData.emailAdd + "\n");
+        dataTextArea.appendText("Province: " + currentData.Province + "\n");
+        dataTextArea.appendText("City: " + currentData.City + "\n");
+        dataTextArea.appendText("Address: " + currentData.Address + "\n");
+        dataTextArea.appendText("MartialStatus: " + currentData.MartialStatus + "\n");
+        dataTextArea.appendText("Occupation: " + currentData.Occupation + "\n");
+        dataTextArea.appendText("Allergies: " + currentData.Allergies + "\n");
+        dataTextArea.appendText("CurrentMed: " + currentData.CurrentMed + "\n");
+        dataTextArea.appendText("DateofAdmission: " + currentData.DateofAdmission + "\n");
+        dataTextArea.appendText("HospitalRoomNum: " + currentData.HospitalRoomNum + "\n");
+        dataTextArea.appendText("AttendingPhysician: " + currentData.AttendingPhysician + "\n");
+        dataTextArea.appendText("Diagnosis: " + currentData.Diagnosis + "\n");
+        dataTextArea.appendText("ExamFindings: " + currentData.ExamFindings + "\n");
+        dataTextArea.appendText("TreatmentPlan: " + currentData.TreatmentPlan + "\n");
+        dataTextArea.appendText("Progress: " + currentData.Progress + "\n");
+        dataTextArea.appendText("DischargeSummary: " + currentData.DischargeSummary);
 
-    dataTextArea.appendText("LastName: " + currentData.lastName + "\n");
-    dataTextArea.appendText("FirstName: " + currentData.firstName + "\n");
-    dataTextArea.appendText("MiddleInitial: " + currentData.middleInitial + "\n");
-    dataTextArea.appendText("DateOfBirth: " + currentData.DateofBirth + "\n");
-    dataTextArea.appendText("MRN: " + currentData.MRN + "\n");
-    dataTextArea.appendText("Sex: " + currentData.Sex + "\n");
-    dataTextArea.appendText("PatientNum: " + currentData.PatientNum + "\n");
-    dataTextArea.appendText("EmerNum: " + currentData.emerNum + "\n");
-    dataTextArea.appendText("EmailAdd: " + currentData.emailAdd + "\n");
-    dataTextArea.appendText("Province: " + currentData.Province + "\n");
-    dataTextArea.appendText("City: " + currentData.City + "\n");
-    dataTextArea.appendText("Address: " + currentData.Address + "\n");
-    dataTextArea.appendText("MartialStatus: " + currentData.MartialStatus + "\n");
-    dataTextArea.appendText("Occupation: " + currentData.Occupation + "\n");
-    dataTextArea.appendText("Allergies: " + currentData.Allergies + "\n");
-    dataTextArea.appendText("CurrentMed: " + currentData.CurrentMed + "\n");
-    dataTextArea.appendText("DateofAdmission: " + currentData.DateofAdmission + "\n");
-    dataTextArea.appendText("HospitalRoomNum: " + currentData.HospitalRoomNum + "\n");
-    dataTextArea.appendText("AttendingPhysician: " + currentData.AttendingPhysician + "\n");
-    dataTextArea.appendText("Diagnosis: " + currentData.Diagnosis + "\n");
-    dataTextArea.appendText("ExamFindings: " + currentData.ExamFindings + "\n");
-    dataTextArea.appendText("TreatmentPlan: " + currentData.TreatmentPlan + "\n");
-    dataTextArea.appendText("Progress: " + currentData.Progress + "\n");
-    dataTextArea.appendText("DischargeSummary: " + currentData.DischargeSummary);
+        Button backButton = new Button("Back");
+        backButton.setOnAction(e -> backToSecondStage());
 
-    Button backButton = new Button("Back");
-    backButton.setOnAction(e -> backToSecondStage());
+        Button addPatientButton = new Button("Add Patient");
+        addPatientButton.setOnAction(e -> addPatientToDataList(currentData));
 
-    Button addPatientButton = new Button("Add Patient");
-    addPatientButton.setOnAction(e -> addPatientToDataList(currentData));
+        Button historyButton = new Button("Patient History");
+        historyButton.setOnAction(e -> showPatientHistoryStage());
 
-    Button historyButton = new Button("Patient History");
-    historyButton.setOnAction(e -> showPatientHistoryStage());
+        HBox buttonBox = new HBox(10);
+        buttonBox.getChildren().addAll(backButton, addPatientButton, historyButton);
 
-    HBox buttonBox = new HBox(10);
-    buttonBox.getChildren().addAll(backButton, addPatientButton, historyButton);
+        VBox root3 = new VBox();
+        root3.getChildren().addAll(summaryLabel, dataTextArea, buttonBox);
+        Scene scene = new Scene(root3, 550, 400);
 
-    VBox root3 = new VBox();
-    root3.getChildren().addAll(summaryLabel, dataTextArea, buttonBox);
-    Scene scene = new Scene(root3, 550, 400);
+        tertiaryStage.setTitle("Patient Record (JavaFX)");
+        tertiaryStage.setScene(scene);
+        tertiaryStage.show();
+    }
 
-    tertiaryStage.setTitle("Patient Record (JavaFX)");
-    tertiaryStage.setScene(scene);
-    tertiaryStage.show();
-}
-
-private void backToSecondStage() {
-     tertiaryStage.hide();
+    private void backToSecondStage() {
+        tertiaryStage.hide();
         secondaryStage.show();
-}
+    }
 
-private void showPatientHistoryStage() {
+    private void showPatientHistoryStage() {
 
-    Stage historyStage = new Stage();
+        Stage historyStage = new Stage();
 
-    Label historyLabel = new Label("Patient History");
+        Label historyLabel = new Label("Patient History");
 
-    ListView<DataEntry> historyView = new ListView<>();
-    historyView.setItems(patientHistoryList);
+        ListView<DataEntry> historyView = new ListView<>();
+        historyView.setItems(patientHistoryList);
 
-    Button closeButton = new Button("Close");
-    closeButton.setOnAction(e -> historyStage.close());
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(e -> historyStage.close());
 
-    VBox root = new VBox(historyLabel, historyView, closeButton);
+        VBox root = new VBox(historyLabel, historyView, closeButton);
 
-    Scene scene = new Scene(root);
-    historyStage.setScene(scene);
-    historyStage.show();
+        Scene scene = new Scene(root);
+        historyStage.setScene(scene);
+        historyStage.show();
 
-}
+    }
 
-private void addPatientToDataList(DataEntry currentData) {
-    dataList.add(currentData);
-    patientHistoryList.add(currentData);
+    private void addPatientToDataList(DataEntry currentData) {
+        dataList.add(currentData);
+        patientHistoryList.add(currentData);
 
-    showAlert("Patient information added successfully!");
+        showAlert("Patient information added successfully!");
 
-    // tertiaryStage.hide();
-}
+        // tertiaryStage.hide();
+    }
 
 }

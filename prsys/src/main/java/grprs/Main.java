@@ -3,6 +3,7 @@ package grprs;
 import java.io.IOException;
 import javafx.application.*;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,6 +14,7 @@ import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import javafx.stage.*;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import java.time.LocalDate;
 import java.time.format.*;
@@ -21,6 +23,13 @@ import java.util.HashMap;
 import javafx.collections.*;
 
 public class Main extends Application {
+    private DataEntry patientData = new DataEntry();
+    private ObservableList<DataEntry> patientHistoryList;
+
+    public Main() {
+        patientHistoryList = FXCollections.observableArrayList();
+    }
+
     double W = 1366;
     double H = 721;
     private HBox contentLayout;
@@ -33,68 +42,33 @@ public class Main extends Application {
     private VBox secondaryStage;
     private HBox processing2;
     private VBox tertiaryStage;
+    private VBox reviewPanel;
     private StackPane stackStages;
     private StackPane stackStages2;
 
-    private Label phase1;
-    private Label phase2;
-    private Label phase3;
+    private Label phase1, phase2, phase3;
 
-    private TextField firstNameField;
-    private TextField middleNameField;
-    private TextField lastNameField;
-    private TextField dobField;
-    private TextField prnField;
-    private TextField sexField;
-    private TextField ppnField;
-    private TextField ecnField;
-    private TextField emailField;
-    private TextField provinceField;
-    private TextField cityField;
-    private TextField addressField;
-    private TextField maritalStatusField;
-    private TextField occupationField;
-    private TextField allergiesField;
-    private TextField currentMedField;
+    private TextField firstNameField, middleNameField, lastNameField, dobField, sexField, ppnField,
+            ecnField, emailField, provinceField, cityField, addressField, maritalStatusField, occupationField,
+            allergiesField, currentMedField;
+
+    private boolean isSelected1, isSelected2;
 
     private ComboBox<String> sexFieldBox;
     private ComboBox<String> maritalStatusBox;
     private DatePicker datePicker = new DatePicker();
 
-    private Label dataLabel1 = new Label();
-    private Label dataLabel2 = new Label();
-    private Label dataLabel4 = new Label();
-    private Label dataLabel5 = new Label();
-    private Label dataLabel6 = new Label();
-    private Label dataLabel7 = new Label();
-    private Label dataLabel8 = new Label();
-    private Label dataLabel9 = new Label();
-    private Label dataLabel10 = new Label();
-    private Label dataLabel11 = new Label();
-    private Label dataLabel12 = new Label();
-    private Label dataLabel13 = new Label();
-    private Label dataLabel14 = new Label();
+    private Label dataLabel1, dataLabel2, dataLabel4, dataLabel5,
+            dataLabel6, dataLabel7, dataLabel8, dataLabel9, dataLabel10,
+            dataLabel11, dataLabel12, dataLabel13, dataLabel14, dataLabel15,
+            dataLabel16, dataLabel17, dataLabel18, dataLabel19, dataLabel20,
+            dataLabel21, dataLabel22;
 
-    private TextField DateOfAdmissionField;
-    private TextField HospitalRoomNumField;
-    private TextField AttendingPhysicianField;
-    private TextField DiagnosisField;
-    private TextField ExamFindingsField;
-    private TextField TreatmentPlanField;
-    private TextField ProgressField;
-    private TextField DischargeSummaryField;
+    private TextField DateOfAdmissionField, HospitalRoomNumField, AttendingPhysicianField,
+            DiagnosisField, ExamFindingsField, TreatmentPlanField, ProgressField, DischargeSummaryField;
 
     private ComboBox<String> RoomNumBox;
     private ComboBox<String> PhysiciaNameBox;
-
-    private Label dataLabel15 = new Label("Date of admission");
-    private Label dataLabel16 = new Label("Hospital room no.");
-    private Label dataLabel17 = new Label("Attending physician");
-    private Label dataLabel18 = new Label("Diagnosis");
-    private Label dataLabel19 = new Label("Physical examination findings");
-    private Label dataLabel20 = new Label("Treatment plan");
-    private Label dataLabel21 = new Label("Progress");
-    private Label dataLabel22 = new Label("Discharge summary");
 
     private TextField[] First_allTextFields = new TextField[15];
     private TextField[] Second_allTextFields = new TextField[7];
@@ -104,9 +78,28 @@ public class Main extends Application {
 
     private HashMap<String, Integer> prnMap = new HashMap<>();
     private int counter = 1;
+    private String prnHashValue;
 
-    private DataEntry patientData = new DataEntry();
+    private Label catchData1 = new Label();
+    private Label reviewData0 = new Label();
 
+    private Label reviewData1 = new Label(); private Label reviewData2 = new Label();
+    private Label reviewData3 = new Label(); private Label reviewData4 = new Label();
+    private Label reviewData5 = new Label(); private Label reviewData6 = new Label();
+    private Label reviewData7 = new Label(); private Label reviewData8 = new Label();
+    private Label reviewData9 = new Label(); private Label reviewData10 = new Label();
+    private Label reviewData11 = new Label(); private Label reviewData12 = new Label();
+    private Label reviewData13 = new Label(); private Label reviewData14 = new Label();
+    private Label reviewData15 = new Label(); private Label reviewData16 = new Label();
+    private Label reviewData17 = new Label(); private Label reviewData18 = new Label();
+    private Label reviewData19 = new Label(); private Label reviewData20 = new Label();
+    private Label reviewData21 = new Label(); private Label reviewData22 = new Label();
+
+    private TextField searchField;
+    
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -228,14 +221,39 @@ public class Main extends Application {
 
     // patientHistory content
     private HBox patientHistory(Stage stage) {
-        Label l1 = new Label("No Content");
-        HBox container = new HBox(l1);
+        Label totalPatient = new Label("Total patient");
+        VBox searchContent = searchContent(stage);
+        HBox container = new HBox(totalPatient, searchContent);
 
         container.getStyleClass().add("patientHistoryStyle");
         container.setAlignment(Pos.CENTER);
 
         return container;
     }
+
+    private VBox searchContent(Stage stage){
+
+        VBox mainLayout = new VBox();
+        mainLayout.setPadding(new Insets(10));
+
+        searchField = new TextField();
+        Button searchButton = new Button("Search");
+        searchButton.setOnAction(e -> searchEntries(mainLayout));
+
+        HBox searchBox = new HBox(10, new Label("Search by First Name:"), searchField, searchButton);
+        VBox entriesBox = new VBox(10);
+
+        for (DataEntry entry : patientHistoryList) {
+            EntryNode entryNode = new EntryNode(entry);
+            entriesBox.getChildren().add(entryNode);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(entriesBox);
+
+        mainLayout.getChildren().addAll(searchBox, scrollPane);
+
+        return mainLayout;
+    } 
 
     // patientRecord content
     private VBox patientRecord(Stage stage) {
@@ -289,7 +307,7 @@ public class Main extends Application {
         tpanel_right.setAlignment(Pos.CENTER_RIGHT);
 
         HBox topPanel = new HBox(tpanel_left, tpanel_right);
-        topPanel.getStyleClass().add("topPanel");
+        topPanel.setMaxHeight(53);
 
         // bottom panel
         phase1 = new Label("Patient Information");
@@ -323,13 +341,18 @@ public class Main extends Application {
         Circle bgCircle = new Circle(142);
         bgCircle.setTranslateY(10);
         bgCircle.setId("bgCircle");
-
         StackPane imgContainer = new StackPane(bgCircle, displayIMG);
         imgContainer.setAlignment(Pos.CENTER);
         imgContainer.setId("imgContainer");
 
+        stackStages2 = new StackPane();
+        reviewPanel = reviewPanel(stage);
+
+        stackStages2.getChildren().addAll(imgContainer, reviewPanel);
+        stackStages2.getChildren().get(1).setVisible(false);
+
         // inserts the content here
-        HBox contentPanel = new HBox(stackStages, imgContainer);
+        HBox contentPanel = new HBox(stackStages, stackStages2);
         contentPanel.setId("prMainContent");
         contentPanel.setSpacing(10);
 
@@ -342,8 +365,7 @@ public class Main extends Application {
     }
 
     private VBox primaryStage(Stage stage) {
-        // dataList = FXCollections.observableArrayList();
-        
+
         initializeFields();
 
         for (TextField textField : First_allTextFields) {
@@ -351,8 +373,8 @@ public class Main extends Application {
         }
 
         firstNameField.setPromptText("First name");
-        middleNameField.setPromptText("Last name");
-        lastNameField.setPromptText("Middle name");
+        middleNameField.setPromptText("Middle name");
+        lastNameField.setPromptText("Last name");
 
         datePicker = new DatePicker();
         datePicker.setId("calendar");
@@ -464,9 +486,14 @@ public class Main extends Application {
         CheckBox checkBox1 = new CheckBox("  Tobacco use  ");
         checkBox1.setId("checkBoxBTN");
         checkBox1.setGraphic(checkIconView);
+        checkBox1.setSelected(false);
+        reviewData13.textProperty().bind(Bindings.concat(isSelected1));
 
         checkBox1.setOnAction(event -> {
-            if (checkBox1.isSelected()) {
+            isSelected1 = checkBox1.isSelected();
+            reviewData13.textProperty().bind(Bindings.concat(isSelected1));
+
+            if (isSelected1) {
                 checkIconView.setImage(checkIcon1);
                 checkBox1.setStyle("-fx-border-color: #4A838E; -fx-text-fill: #105B6A;");
             } else {
@@ -478,9 +505,14 @@ public class Main extends Application {
         CheckBox checkBox2 = new CheckBox("  Drink alcohol  ");
         checkBox2.setId("checkBoxBTN");
         checkBox2.setGraphic(checkIconView2);
+        checkBox2.setSelected(false);
+        reviewData14.textProperty().bind(Bindings.concat(isSelected2));
 
         checkBox2.setOnAction(event -> {
-            if (checkBox2.isSelected()) {
+            isSelected2 = checkBox2.isSelected();
+            reviewData14.textProperty().bind(Bindings.concat(isSelected2));
+
+            if (isSelected2) {
                 checkIconView2.setImage(checkIcon3);
                 checkBox2.setStyle("-fx-border-color: #4A838E; -fx-text-fill: #105B6A;");
             } else {
@@ -517,7 +549,7 @@ public class Main extends Application {
         prPanel5.setVgap(5);
 
         prPanel.addRow(0, dataLabel1);
-        prPanel.addRow(1, firstNameField, lastNameField, middleNameField);
+        prPanel.addRow(1, firstNameField, middleNameField, lastNameField);
         prPanel2.addRow(0, dataLabel2, dataLabel4, dataLabel5);
         prPanel2.addRow(1, datePicker, sexFieldBox, ppnField);
         prPanel3.addRow(0, dataLabel6, dataLabel7, dataLabel8);
@@ -555,6 +587,44 @@ public class Main extends Application {
         occupationField = new TextField();
         allergiesField = new TextField();
         currentMedField = new TextField();
+
+        StringBinding formattedMiddleNameBinding = Bindings.createStringBinding(() -> {
+            String middleName = middleNameField.getText();
+            if (!middleName.isEmpty()) {
+                String formattedMiddleName = middleName.substring(0, 1).toUpperCase();
+                return formattedMiddleName;
+            }
+            return "";
+        }, middleNameField.textProperty());
+
+        catchData1.textProperty().bind(
+                Bindings.concat(
+                        firstNameField.textProperty(),
+                        " ",
+                        formattedMiddleNameBinding, ". ",
+                        lastNameField.textProperty()));
+
+        reviewData0.textProperty().bind(
+                Bindings.concat(
+                        firstNameField.textProperty(),
+                        " ",
+                        formattedMiddleNameBinding, ". ",
+                        lastNameField.textProperty()));
+
+        reviewData1.textProperty().bind(Bindings.concat(dobField.textProperty()));
+        reviewData2.textProperty().bind(Bindings.concat(sexField.textProperty()));
+        reviewData3.textProperty().bind(Bindings.concat(ppnField.textProperty()));
+        reviewData4.textProperty().bind(Bindings.concat(ecnField.textProperty()));
+        reviewData5.textProperty().bind(Bindings.concat(emailField.textProperty()));
+        reviewData6.textProperty().bind(Bindings.concat(provinceField.textProperty()));
+        reviewData7.textProperty().bind(Bindings.concat(cityField.textProperty()));
+        reviewData8.textProperty().bind(Bindings.concat(addressField.textProperty()));
+        reviewData9.textProperty().bind(Bindings.concat(maritalStatusField.textProperty()));
+        reviewData10.textProperty().bind(Bindings.concat(occupationField.textProperty()));
+        reviewData11.textProperty().bind(Bindings.concat(allergiesField.textProperty()));
+        reviewData12.textProperty().bind(Bindings.concat(currentMedField.textProperty()));
+
+        catchData1.setStyle("-fx-font-size: 16px; -fx-margin: 27 0 53 0; -fx-text-fill: #4D4D4D;");
 
         First_allTextFields = new TextField[] {
                 firstNameField, middleNameField, lastNameField, dobField, sexField, ppnField,
@@ -595,36 +665,20 @@ public class Main extends Application {
         String CurrentMed = currentMedField.getText();
 
         if (firstName.isEmpty() || middleInitial.isEmpty() ||
-            lastName.isEmpty() || DateofBirth.isEmpty() ||
-            Sex.isEmpty() || 
-            PatientNum.isEmpty() || emerNum.isEmpty() ||
-            emailAdd.isEmpty() || Province.isEmpty() ||
-            City.isEmpty() || Address.isEmpty() ||
-            MartialStatus.isEmpty() || Occupation.isEmpty() ||
-            Allergies.isEmpty() || CurrentMed.isEmpty()) {
+                lastName.isEmpty() || DateofBirth.isEmpty() ||
+                Sex.isEmpty() ||
+                PatientNum.isEmpty() || emerNum.isEmpty() ||
+                emailAdd.isEmpty() || Province.isEmpty() ||
+                City.isEmpty() || Address.isEmpty() ||
+                MartialStatus.isEmpty() || Occupation.isEmpty() ||
+                Allergies.isEmpty() || CurrentMed.isEmpty()) {
             showAlert("Please fill in all required fields.");
             return;
-        } 
-        
+        }
+
         if (!isValidPhoneNumber(ppnField.getText()) || !isValidPhoneNumber(ecnField.getText())) {
             return;
         } else {
-            System.out.println(firstNameField.getText());
-            System.out.println(middleNameField.getText());
-            System.out.println(lastNameField.getText());
-            System.out.println(dobField.getText());
-            System.out.println(sexField.getText());
-            System.out.println(ppnField.getText());
-            System.out.println(ecnField.getText());
-            System.out.println(emailField.getText());
-            System.out.println(provinceField.getText());
-            System.out.println(cityField.getText());
-            System.out.println(addressField.getText());
-            System.out.println(maritalStatusField.getText());
-            System.out.println(occupationField.getText());
-            System.out.println(allergiesField.getText());
-            System.out.println(currentMedField.getText());
-
             patientData.setFirstName(firstNameField.getText());
             patientData.setMiddleInitial(middleNameField.getText());
             patientData.setLastName(lastNameField.getText());
@@ -640,6 +694,8 @@ public class Main extends Application {
             patientData.setOccupation(occupationField.getText());
             patientData.setAllergies(allergiesField.getText());
             patientData.setCurrentMed(currentMedField.getText());
+            patientData.setTobaccoUse(isSelected1);
+            patientData.setDrinkAlcohol(isSelected2);
 
             primaryStage.setVisible(false);
             secondaryStage.setVisible(true);
@@ -722,7 +778,6 @@ public class Main extends Application {
     private void validateComboBox() {
         if (sexFieldBox.getSelectionModel().isEmpty()) {
             sexFieldBox.setStyle("-fx-border-color: red;");
-            
 
             sexFieldBox.getEditor().styleProperty().bind(
                     Bindings.when(sexFieldBox.valueProperty().isNull())
@@ -731,8 +786,8 @@ public class Main extends Application {
         } else {
             sexFieldBox.setStyle("");
         }
-        
-        if (maritalStatusBox.getSelectionModel().isEmpty()){
+
+        if (maritalStatusBox.getSelectionModel().isEmpty()) {
             maritalStatusBox.setStyle("-fx-border-color: red;");
 
             maritalStatusBox.getEditor().styleProperty().bind(
@@ -768,9 +823,11 @@ public class Main extends Application {
         DateOfAdmissionField.setId("textFieldRow");
         String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("MM / dd / yyyy"));
         DateOfAdmissionField.setText(formattedDate);
+        reviewData15.textProperty().bind(Bindings.concat(DateOfAdmissionField.textProperty()));
         DateOfAdmissionField.setEditable(false);
-        DateOfAdmissionField.setStyle("-fx-cursor: pointer; -fx-highlight-text-fill: -fx-text-fill; -fx-highlight-fill: white;");
-        
+        DateOfAdmissionField
+                .setStyle("-fx-cursor: pointer; -fx-highlight-text-fill: -fx-text-fill; -fx-highlight-fill: white;");
+
         RoomNumBox = new ComboBox<>(FXCollections.observableArrayList(
                 "Room 100",
                 "Room 101",
@@ -782,7 +839,7 @@ public class Main extends Application {
         RoomNumBox.setPromptText("Room number");
         RoomNumBox.setOnAction(event -> HospitalRoomNumField.setText(RoomNumBox.getSelectionModel().getSelectedItem()));
         RoomNumBox.getStyleClass().add("row-pair3");
-        
+
         PhysiciaNameBox = new ComboBox<>(FXCollections.observableArrayList(
                 "Dra. Sarah Michaels - Attending Cardiologist",
                 "Dr. Neil Robertson - Chief of Surgery",
@@ -791,9 +848,10 @@ public class Main extends Application {
                 "Dr. Fatima Rahman - Neurologist"));
         PhysiciaNameBox.setEditable(true);
         PhysiciaNameBox.setPromptText("Physician name");
-        PhysiciaNameBox.setOnAction(event -> AttendingPhysicianField.setText(PhysiciaNameBox.getSelectionModel().getSelectedItem()));
+        PhysiciaNameBox.setOnAction(
+                event -> AttendingPhysicianField.setText(PhysiciaNameBox.getSelectionModel().getSelectedItem()));
         PhysiciaNameBox.getStyleClass().add("row-pair3");
-        
+
         DiagnosisField.setId("textFieldRow");
         ExamFindingsField.setId("textFieldRow");
         TreatmentPlanField.setId("textFieldRow");
@@ -811,7 +869,7 @@ public class Main extends Application {
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> backToFirstStage());
         backButton.setId("backBTN");
-        
+
         prPhase2Submit = new Button("Next");
         prPhase2Submit.setOnAction(e -> {
             nextButtonClicked2();
@@ -864,10 +922,18 @@ public class Main extends Application {
         ProgressField = new TextField();
         DischargeSummaryField = new TextField();
 
+        reviewData16.textProperty().bind(Bindings.concat(HospitalRoomNumField.textProperty()));
+        reviewData17.textProperty().bind(Bindings.concat(AttendingPhysicianField.textProperty()));
+        reviewData18.textProperty().bind(Bindings.concat(DiagnosisField.textProperty()));
+        reviewData19.textProperty().bind(Bindings.concat(ExamFindingsField.textProperty()));
+        reviewData20.textProperty().bind(Bindings.concat(TreatmentPlanField.textProperty()));
+        reviewData21.textProperty().bind(Bindings.concat(ProgressField.textProperty()));
+        reviewData22.textProperty().bind(Bindings.concat(DischargeSummaryField.textProperty()));
+
         Second_allTextFields = new TextField[] {
-                HospitalRoomNumField, 
-                AttendingPhysicianField, DiagnosisField, 
-                ExamFindingsField, TreatmentPlanField, 
+                HospitalRoomNumField,
+                AttendingPhysicianField, DiagnosisField,
+                ExamFindingsField, TreatmentPlanField,
                 ProgressField, DischargeSummaryField
         };
 
@@ -911,7 +977,6 @@ public class Main extends Application {
     private void validateComboBox2() {
         if (RoomNumBox.getSelectionModel().isEmpty()) {
             RoomNumBox.setStyle("-fx-border-color: red;");
-            
 
             RoomNumBox.getEditor().styleProperty().bind(
                     Bindings.when(RoomNumBox.valueProperty().isNull())
@@ -920,8 +985,8 @@ public class Main extends Application {
         } else {
             RoomNumBox.setStyle("");
         }
-        
-        if (PhysiciaNameBox.getSelectionModel().isEmpty()){
+
+        if (PhysiciaNameBox.getSelectionModel().isEmpty()) {
             PhysiciaNameBox.setStyle("-fx-border-color: red;");
 
             PhysiciaNameBox.getEditor().styleProperty().bind(
@@ -943,23 +1008,14 @@ public class Main extends Application {
         String Progress = ProgressField.getText();
         String DischargeSummary = DischargeSummaryField.getText();
 
-        if (DateOfAdmission.isEmpty() || HospitalRoomNum.isEmpty() || 
-            AttendingPhysician.isEmpty() ||
-            Diagnosis.isEmpty() || ExamFindings.isEmpty() || 
-            TreatmentPlan.isEmpty() || Progress.isEmpty() || 
-            DischargeSummary.isEmpty()) {
+        if (DateOfAdmission.isEmpty() || HospitalRoomNum.isEmpty() ||
+                AttendingPhysician.isEmpty() ||
+                Diagnosis.isEmpty() || ExamFindings.isEmpty() ||
+                TreatmentPlan.isEmpty() || Progress.isEmpty() ||
+                DischargeSummary.isEmpty()) {
             showAlert("Please fill in all required fields.");
             return;
         } else {
-            System.out.println(DateOfAdmissionField.getText());
-            System.out.println(HospitalRoomNumField.getText());
-            System.out.println(AttendingPhysicianField.getText());
-            System.out.println(DiagnosisField.getText());
-            System.out.println(ExamFindingsField.getText());
-            System.out.println(TreatmentPlanField.getText());
-            System.out.println(ProgressField.getText());
-            System.out.println(DischargeSummaryField.getText());
-
             patientData.setDateOfAdmission(DateOfAdmissionField.getText());
             patientData.setHospitalRoomNum(HospitalRoomNumField.getText());
             patientData.setAttendingPhysician(AttendingPhysicianField.getText());
@@ -971,78 +1027,10 @@ public class Main extends Application {
 
             secondaryStage.setVisible(false);
             tertiaryStage.setVisible(true);
+            reviewPanel.setVisible(true);
             phase3.setStyle("-fx-border-color: #105B6A; -fx-text-fill: #105B6A;");
             processing2.setId("circle-active");
         }
-    }
-
-    private VBox tertiaryStage(Stage stage){
-
-        TextArea dataTextArea = new TextArea();
-        dataTextArea.setEditable(false);
-        dataTextArea.setWrapText(true);
-
-        dataTextArea.appendText("Test: " + patientData.getFirstName()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getMiddleInitial()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getLastName()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getDateOfBirth()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getSex()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getPatientNum()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getEmerNum()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getEmailAdd()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getProvince()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getCity()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getAddress()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getMaritalStatus()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getOccupation()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getAllergies()+ "\n");
-        dataTextArea.appendText("Test: " + patientData.getCurrentMed()+ "\n");
-
-        dataTextArea.appendText("Test: " + patientData.getDateOfAdmission() + "\n");
-        dataTextArea.appendText("Test: " + patientData.getHospitalRoomNum() + "\n");
-        dataTextArea.appendText("Test: " + patientData.getAttendingPhysician() + "\n");
-        dataTextArea.appendText("Test: " + patientData.getDiagnosis() + "\n");
-        dataTextArea.appendText("Test: " + patientData.getExamFindings() + "\n");
-        dataTextArea.appendText("Test: " + patientData.getTreatmentPlan() + "\n");
-        dataTextArea.appendText("Test: " + patientData.getProgress() + "\n");
-        dataTextArea.appendText("Test: " + patientData.getDischargeSummary() + "\n");   
-
-        LocalDate currentDate = LocalDate.now();
-        String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("MM / dd / yyyy"));
-        Label prnValueLabel = new Label("PRN" + String.format("%08d", counter) + " | " + formattedDate);
-                
-        Image finalStageImg = new Image("/assets/finalStage_img.png");
-        ImageView displayIMG = new ImageView(finalStageImg);
-
-        Circle bgCircle = new Circle(115);
-        bgCircle.setId("bgCircle");
-
-        StackPane imgContainer = new StackPane(bgCircle, displayIMG);
-        imgContainer.setAlignment(Pos.CENTER);
-
-        Button backButton = new Button("Back");
-        backButton.setOnAction(e -> backToSecondStage());
-        backButton.setId("backBTN");
-        
-        prPhase3Submit = new Button("Add patient");
-        prPhase3Submit.setId("prsBTN");
-        prPhase3Submit.setStyle("-fx-background-color: #105B6A; -fx-text-fill: #FFFFFF; -fx-cursor: hand;");
-        prPhase3Submit.setOnAction(e -> {
-            String prn = "PRN" + String.format("%08d", counter++);
-            prnMap.put(prn, counter);
-
-            prnValueLabel.setText(prn); 
-
-            // addPatientToDataList(currentData);
-        });
-
-        HBox btnCon = new HBox(backButton, prPhase3Submit);
-
-        VBox thirdStage = new VBox();
-        thirdStage.getChildren().addAll(imgContainer, prnValueLabel, dataTextArea, btnCon);
-        thirdStage.setId("prMainContentPanel");
-
-        return thirdStage;
     }
 
     private static class DataEntry {
@@ -1050,6 +1038,7 @@ public class Main extends Application {
         private String middleInitial;
         private String lastName;
         private String DateofBirth;
+        private String PRNHashValue;
         private String Sex;
         private String PatientNum;
         private String emerNum;
@@ -1061,6 +1050,8 @@ public class Main extends Application {
         private String Occupation;
         private String Allergies;
         private String CurrentMed;
+        private boolean tobaccoUse;
+        private boolean DrinkAlcohol;
 
         private String DateOfAdmission;
         private String HospitalRoomNum;
@@ -1071,6 +1062,24 @@ public class Main extends Application {
         private String Progress;
         private String DischargeSummary;
 
+        // checkbox
+        public void setTobaccoUse(boolean tobaccoUse) {
+            this.tobaccoUse = tobaccoUse;
+        }
+
+        public boolean isTobaccoUse() {
+            return tobaccoUse;
+        }
+
+        public void setDrinkAlcohol(boolean DrinkAlcohol) {
+            this.DrinkAlcohol = DrinkAlcohol;
+        }
+
+        public boolean isDrinkAlcohol() {
+            return DrinkAlcohol;
+        }
+
+        //
 
         public void setFirstName(String firstName) {
             this.firstName = firstName;
@@ -1087,6 +1096,18 @@ public class Main extends Application {
         public void setDateOfBirth(String DateofBirth) {
             this.DateofBirth = DateofBirth;
         }
+
+        // HashMap set and get
+
+        public void setPRNHashValue(String PRNHashValue) {
+            this.PRNHashValue = PRNHashValue;
+        }
+
+        public String getPRNHashValue() {
+            return PRNHashValue;
+        }
+
+        //
 
         public void setSex(String Sex) {
             this.Sex = Sex;
@@ -1257,6 +1278,172 @@ public class Main extends Application {
         public String getDischargeSummary() {
             return DischargeSummary;
         }
+
+        @Override
+        public String toString() {
+            return "First Name: " + getFirstName();
+        }
+    }
+
+    private VBox tertiaryStage(Stage stage) {
+
+        LocalDate currentDate = LocalDate.now();
+        String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("MM / dd / yyyy"));
+
+        Label prnValueLabel = new Label("PRN" + String.format("%08d", counter));
+        Label dateLabel = new Label("   |   " + formattedDate);
+        prnValueLabel.setStyle("-fx-font-weight: 400; -fx-font-size: 14px; -fx-text-fill: #4D4D4D;");
+        dateLabel.setStyle("-fx-font-weight: 400; -fx-font-size: 14px; -fx-text-fill: #4D4D4D;");
+
+        HBox PRNnDate = new HBox(prnValueLabel, dateLabel);
+        PRNnDate.setAlignment(Pos.CENTER);
+
+        Image finalStageImg = new Image("/assets/finalStage_img.png");
+        ImageView displayIMG = new ImageView(finalStageImg);
+        displayIMG.setTranslateY(-20);
+
+        Circle bgCircle = new Circle(115);
+        bgCircle.setId("bgCircle");
+
+        StackPane imgContainer = new StackPane(bgCircle, displayIMG);
+        imgContainer.setAlignment(Pos.CENTER);
+
+        Button backButton = new Button("Back");
+        backButton.setOnAction(e -> backToSecondStage());
+        backButton.setId("backBTN");
+
+        prPhase3Submit = new Button("Add patient");
+        prPhase3Submit.setId("prsBTN");
+        prPhase3Submit.setStyle("-fx-background-color: #105B6A; -fx-text-fill: #FFFFFF; -fx-cursor: hand;");
+        prPhase3Submit.setOnAction(e -> {
+            patientData.setPRNHashValue(prnValueLabel.getText());
+
+            addPatientToDataList();
+            prnHashValue = "PRN" + String.format("%08d", counter++);
+            prnMap.put(prnHashValue, counter);
+
+            prnValueLabel.setText(prnHashValue);
+        });
+
+        HBox btnCon = new HBox(backButton, prPhase3Submit);
+        btnCon.setAlignment(Pos.CENTER);
+        btnCon.setSpacing(10);
+        VBox thirdStage = new VBox();
+        VBox.setMargin(imgContainer, new Insets(0, 0, 27, 0));
+        VBox.setMargin(btnCon, new Insets(53, 0, 0, 0));
+
+        thirdStage.getChildren().addAll(imgContainer, catchData1, PRNnDate, btnCon);
+        thirdStage.setAlignment(Pos.BOTTOM_CENTER);
+        thirdStage.setId("prMainContentPanel");
+
+        return thirdStage;
+    }
+
+    private void addPatientToDataList() {
+        DataEntry newPatient = new DataEntry();
+
+        newPatient.setFirstName(patientData.getFirstName());
+        newPatient.setMiddleInitial(patientData.getMiddleInitial());
+        newPatient.setLastName(patientData.getLastName());
+
+        patientHistoryList.add(newPatient);
+
+        showAlert("Patient information added successfully!");
+    }
+
+    private class EntryNode extends HBox {
+        private DataEntry dataEntry;
+
+        public EntryNode(DataEntry dataEntry) {
+            this.dataEntry = dataEntry;
+
+            Label nameLabel = new Label(dataEntry.getFirstName());
+            Button showDataButton = new Button("Show Data");
+            showDataButton.setStyle("-fx-padding: 250 0;");
+            showDataButton.setOnAction(e -> showData());
+
+            getChildren().addAll(nameLabel, showDataButton);
+        }
+
+        private void showData() {
+            System.out.println("Specific Information: " + dataEntry);
+        }
+    }
+
+    private void searchEntries(VBox mainLayout) {
+        String searchQuery = searchField.getText().toLowerCase();
+
+        VBox entriesBox = new VBox(10);
+
+        for (DataEntry entry : patientHistoryList) {
+            if (entry.getFirstName().toLowerCase().contains(searchQuery)) {
+                EntryNode entryNode = new EntryNode(entry);
+                entriesBox.getChildren().add(entryNode);
+            }
+        }
+
+        ScrollPane scrollPane = new ScrollPane(entriesBox);
+
+        // Replace the old entriesBox with the new one in the main layout
+        mainLayout.getChildren().remove(1);
+        mainLayout.getChildren().add(scrollPane);
+    }
+
+    private VBox reviewPanel(Stage stage) {
+
+        Label label1 = new Label("Patient's name");
+        Label label2 = new Label("Date of birth");
+        Label label3 = new Label("Sex");
+        Label label4 = new Label("Patient's phone no.");
+        Label label5 = new Label("Emerg. contact no.");
+        Label label6 = new Label("Email address");
+        Label label7 = new Label("Province");
+        Label label8 = new Label("City");
+        Label label9 = new Label("Address");
+        Label label10 = new Label("Marital status");
+        Label label11 = new Label("Occupation");
+        Label label12 = new Label("Allergies");
+        Label label13 = new Label("Current medication");
+        Label label14 = new Label("Tobacco use");
+        Label label15 = new Label("Drink alcohol");
+        Label label16 = new Label("Date of admission");
+        Label label17 = new Label("Hospital room no.");
+        Label label18 = new Label("Attending physician");
+        Label label19 = new Label("Diagnosis");
+        Label label20 = new Label("Physical examination findings");
+        Label label21 = new Label("Treatment plan");
+        Label label22 = new Label("Progress");
+        Label label23 = new Label("Discharge summary");
+
+        Label demographics = new Label("Patient's Demographics and Clinical summary");
+
+        GridPane prPanel = new GridPane();
+        prPanel.setVgap(5);
+
+        prPanel.addRow(0, label1); prPanel.addRow(1, reviewData0); prPanel.addRow(2, label2); prPanel.addRow(3, reviewData1);
+        prPanel.addRow(4, label3); prPanel.addRow(5, reviewData2); prPanel.addRow(6, label4); prPanel.addRow(7, reviewData3);
+        prPanel.addRow(8, label5); prPanel.addRow(9, reviewData4); prPanel.addRow(10, label6); prPanel.addRow(11, reviewData5);
+        prPanel.addRow(12, label7); prPanel.addRow(13, reviewData6); prPanel.addRow(14, label8); prPanel.addRow(15, reviewData7);
+        prPanel.addRow(16, label9); prPanel.addRow(17, reviewData8); prPanel.addRow(18, label10); prPanel.addRow(19, reviewData9);
+        prPanel.addRow(20, label11); prPanel.addRow(21, reviewData10); prPanel.addRow(22, label12); prPanel.addRow(23, reviewData11);
+        prPanel.addRow(24, label13); prPanel.addRow(25, reviewData12); prPanel.addRow(26, label14); prPanel.addRow(27, reviewData13);
+        prPanel.addRow(28, label15); prPanel.addRow(29, reviewData14); prPanel.addRow(30, label16); prPanel.addRow(31, reviewData15);
+        prPanel.addRow(32, label17); prPanel.addRow(33, reviewData16); prPanel.addRow(34, label18); prPanel.addRow(35, reviewData17);
+        prPanel.addRow(36, label19); prPanel.addRow(37, reviewData18); prPanel.addRow(38, label20); prPanel.addRow(39, reviewData19);
+        prPanel.addRow(40, label21); prPanel.addRow(41, reviewData20); prPanel.addRow(42, label22); prPanel.addRow(43, reviewData21);
+        prPanel.addRow(44, label23); prPanel.addRow(45, reviewData22);
+
+        ScrollPane scrollPane = new ScrollPane(prPanel);
+
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setId("reviewScrollPanel");
+
+        VBox reviewDataPanel = new VBox(demographics, scrollPane);
+        reviewDataPanel.setSpacing(28);
+        reviewDataPanel.setId("reviewPanelStyle");
+
+        return reviewDataPanel;
     }
 
     private void backToFirstStage() {
@@ -1269,6 +1456,7 @@ public class Main extends Application {
     private void backToSecondStage() {
         secondaryStage.setVisible(true);
         tertiaryStage.setVisible(false);
+        reviewPanel.setVisible(false);
         phase3.setStyle("-fx-border-color: #C5C5C5; -fx-text-fill: #C5C5C5;");
         processing2.setId("circle-deactivate");
     }
@@ -1312,9 +1500,5 @@ public class Main extends Application {
         StackPane.setAlignment(customTitleBar, Pos.TOP_CENTER);
 
         return customTitleBar;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

@@ -55,7 +55,7 @@ public class DataListWithButtonsExample extends Application {
             Label nameLabel = new Label(dataEntry.getName());
             Button showDataButton = new Button("Show Data");
             showDataButton.setOnAction(e -> showData());
-            showDataButton.setOnAction(e -> showData());
+            // showDataButton.setOnAction(e -> showData());
 
             getChildren().addAll(nameLabel, showDataButton);
         }

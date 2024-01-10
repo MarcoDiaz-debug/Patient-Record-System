@@ -81,22 +81,40 @@ public class Main extends Application {
     private String prnHashValue;
 
     private Label catchData1 = new Label();
+
     private Label reviewData0 = new Label();
+    private Label reviewData1 = new Label();
+    private Label reviewData2 = new Label();
+    private Label reviewData3 = new Label();
+    private Label reviewData4 = new Label();
+    private Label reviewData5 = new Label();
+    private Label reviewData6 = new Label();
+    private Label reviewData7 = new Label();
+    private Label reviewData8 = new Label();
+    private Label reviewData9 = new Label();
+    private Label reviewData10 = new Label();
+    private Label reviewData11 = new Label();
+    private Label reviewData12 = new Label();
+    private Label reviewData13 = new Label();
+    private Label reviewData14 = new Label();
+    private Label reviewData15 = new Label();
+    private Label reviewData16 = new Label();
+    private Label reviewData17 = new Label();
+    private Label reviewData18 = new Label();
+    private Label reviewData19 = new Label();
+    private Label reviewData20 = new Label();
+    private Label reviewData21 = new Label();
+    private Label reviewData22 = new Label();
 
-    private Label reviewData1 = new Label(); private Label reviewData2 = new Label();
-    private Label reviewData3 = new Label(); private Label reviewData4 = new Label();
-    private Label reviewData5 = new Label(); private Label reviewData6 = new Label();
-    private Label reviewData7 = new Label(); private Label reviewData8 = new Label();
-    private Label reviewData9 = new Label(); private Label reviewData10 = new Label();
-    private Label reviewData11 = new Label(); private Label reviewData12 = new Label();
-    private Label reviewData13 = new Label(); private Label reviewData14 = new Label();
-    private Label reviewData15 = new Label(); private Label reviewData16 = new Label();
-    private Label reviewData17 = new Label(); private Label reviewData18 = new Label();
-    private Label reviewData19 = new Label(); private Label reviewData20 = new Label();
-    private Label reviewData21 = new Label(); private Label reviewData22 = new Label();
+    private Label[] reviewDataLabels = {
+            reviewData0, reviewData1, reviewData2, reviewData3, reviewData4,
+            reviewData5, reviewData6, reviewData7, reviewData8, reviewData9,
+            reviewData10, reviewData11, reviewData12, reviewData13, reviewData14,
+            reviewData15, reviewData16, reviewData17, reviewData18, reviewData19,
+            reviewData20, reviewData21, reviewData22 };
 
-    private TextField searchField;
-    
+    private int patientCounter;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -107,7 +125,7 @@ public class Main extends Application {
         contentLayout = contentLayout(stage);
 
         // titlebar icon anf label
-        Image appIcon = new Image("/assets/iconPRS.png");
+        Image appIcon = new Image("/assets/prsIcon.png");
         stage.getIcons().add(appIcon);
         stage.setTitle("OSPA Patient Record System");
         stage.initStyle(StageStyle.UNDECORATED);
@@ -145,7 +163,6 @@ public class Main extends Application {
         Rectangle bgIMGpanel = new Rectangle(0, 0, W, H);
         bgIMG.setClip(bgIMGpanel);
 
-        // calling all avengers
         StackPane composite = new StackPane(bgIMG, blurIMG, bgOverlay, contentLayout, customTitleBar);
 
         Scene scene = new Scene(composite);
@@ -154,6 +171,60 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
+    }
+
+    private HBox topPanel(Stage stage) {
+        LocalDate currentDate = LocalDate.now();
+
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendPattern("EEEE, d ")
+                .appendPattern("MMMM yyyy")
+                .toFormatter();
+
+        String formattedDate = currentDate.format(formatter);
+
+        String[] dateParts = formattedDate.split(" ");
+
+        Text dayOfWeekText = new Text(dateParts[0] + " ");
+        dayOfWeekText.setStyle("-fx-fill: #3E3E3E;");
+        dayOfWeekText.getStyleClass().add("dateBoldText");
+        Text dayOfMonthText = new Text(dateParts[1] + " ");
+        dayOfMonthText.setStyle("-fx-fill: #3E3E3E;");
+        dayOfMonthText.getStyleClass().add("dateBoldText");
+        Text restOfDateText = new Text(dateParts[2] + " " + dateParts[3]);
+        restOfDateText.setStyle("-fx-fill: #3E3E3E;");
+
+        HBox dateBox = new HBox(dayOfWeekText, dayOfMonthText, restOfDateText);
+        dateBox.setAlignment(Pos.CENTER);
+        dateBox.setId("dateField");
+
+        // adminNumber
+        Image adminIcon = new Image(getClass().getResourceAsStream("/assets/adminIcon.png"));
+        ImageView aIcon = new ImageView(adminIcon);
+        Label adminNumber = new Label("Frontdesk  ");
+        adminNumber.getStyleClass().add("adminNum");
+        adminNumber.setGraphic(aIcon);
+        adminNumber.setContentDisplay(ContentDisplay.RIGHT);
+
+        // chatBot icon
+        Button chatBot = new Button();
+        chatBot.setId("chatBotBTN");
+        Image chatBotIcon = new Image(getClass().getResourceAsStream("/assets/chatBotIcon.png"));
+        ImageView botIcon = new ImageView(chatBotIcon);
+        chatBot.setGraphic(botIcon);
+
+        HBox tpanel_left = new HBox(dateBox);
+        tpanel_left.setPrefWidth(1057 / 2);
+        tpanel_left.setAlignment(Pos.CENTER_LEFT);
+        HBox tpanel_right = new HBox(adminNumber, chatBot);
+        tpanel_right.setPrefWidth(1057 / 2);
+        tpanel_right.setSpacing(10);
+        tpanel_right.setAlignment(Pos.CENTER_RIGHT);
+
+        HBox topContent = new HBox(tpanel_left, tpanel_right);
+        topContent.setMaxHeight(53);
+
+        return topContent;
     }
 
     private HBox processing(Stage stage) {
@@ -165,6 +236,30 @@ public class Main extends Application {
             Circle circles = new Circle(2);
             container.getChildren().add(circles);
         }
+
+        return container;
+    }
+
+    private HBox dashboardLayout(Stage stage){
+        // top container
+        Label label = new Label();
+        label.setText("DASHBOARD");
+        
+        // middle container
+
+        
+        // add for loop here
+        ScrollPane scrollPane = new ScrollPane();
+        VBox dbHistory = new VBox(scrollPane);
+
+        // buttom container
+        
+
+        HBox btnCon = new HBox();
+
+        VBox dbContent = new VBox(label, dbHistory);
+
+        HBox container = new HBox(dbContent);
 
         return container;
     }
@@ -220,28 +315,38 @@ public class Main extends Application {
     }
 
     // patientHistory content
-    private HBox patientHistory(Stage stage) {
-        Label totalPatient = new Label("Total patient");
-        VBox searchContent = searchContent(stage);
-        HBox container = new HBox(totalPatient, searchContent);
+    private VBox patientHistory(Stage stage) {
+        HBox topPanel = topPanel(stage);
 
+        VBox searchEngine = searchEngine(stage);
+
+        VBox container = new VBox(topPanel, searchEngine);
+        container.setSpacing(10);
         container.getStyleClass().add("patientHistoryStyle");
-        container.setAlignment(Pos.CENTER);
+        container.setAlignment(Pos.TOP_CENTER);
 
         return container;
     }
 
-    private VBox searchContent(Stage stage){
-
-        VBox mainLayout = new VBox();
-        mainLayout.setPadding(new Insets(10));
-
-        searchField = new TextField();
-        Button searchButton = new Button("Search");
-        searchButton.setOnAction(e -> searchEntries(mainLayout));
-
-        HBox searchBox = new HBox(10, new Label("Search by First Name:"), searchField, searchButton);
+    private VBox searchEngine(Stage stage) {
         VBox entriesBox = new VBox(10);
+
+        Label totalPatient = new Label();
+
+        if (patientCounter == 0) {
+            totalPatient.setText("No patient added");
+        } else if (patientCounter == 1) {
+            totalPatient.setText("1 Total patient");
+        } else {
+            totalPatient.setText(patientCounter + " Total patients");
+        }
+
+        totalPatient.setStyle(
+                "-fx-text-fill: white; -fx-padding: 11 26; -fx-background-color: #105B6A; -fx-background-radius: 13;");
+        HBox totalPatientBox = new HBox(totalPatient);
+        totalPatientBox.setAlignment(Pos.CENTER_LEFT);
+        totalPatientBox.setStyle("-fx-pref-width: 700;");
+        totalPatientBox.setId("secondPanel");
 
         for (DataEntry entry : patientHistoryList) {
             EntryNode entryNode = new EntryNode(entry);
@@ -249,66 +354,58 @@ public class Main extends Application {
         }
 
         ScrollPane scrollPane = new ScrollPane(entriesBox);
+        VBox scrollContainer = new VBox(scrollPane);
+        scrollContainer.setId("dataScrollPane");
 
-        mainLayout.getChildren().addAll(searchBox, scrollPane);
+        VBox searchEngineBox = new VBox(scrollContainer);
 
-        return mainLayout;
-    } 
+        Image searchImg = new Image(getClass().getResourceAsStream("/assets/SearchIcon.png"));
+        ImageView searchIcon = new ImageView(searchImg);
+
+        TextField searchField = new TextField();
+        searchField.setId("searchBox");
+        searchField.setPromptText("Search Patient's name | PRN number");
+        Button searchButton = new Button();
+        searchButton.setStyle("-fx-background-color: none; -fx-cursor: hand;");
+        searchButton.setGraphic(searchIcon);
+        searchButton.setOnAction(e -> searchEntries(entriesBox, searchField.getText().toLowerCase()));
+
+        HBox searchBox = new HBox(searchField, searchButton);
+        searchBox.setId("secondPanel");
+        searchBox.setStyle("-fx-padding: 15 15 15 25;");
+        searchBox.setSpacing(10);
+        searchBox.setAlignment(Pos.CENTER);
+        HBox middleCon = new HBox(totalPatientBox, searchBox);
+        middleCon.setSpacing(10);
+        searchEngineBox.getChildren().add(0, middleCon);
+        searchEngineBox.setSpacing(10);
+
+        return searchEngineBox;
+    }
+
+    private void searchEntries(VBox entriesBox, String searchQuery) {
+        entriesBox.getChildren().clear();
+
+        if (searchQuery.isEmpty()) {
+            // Display all entries if the search query is empty
+            for (DataEntry entry : patientHistoryList) {
+                EntryNode entryNode = new EntryNode(entry);
+                entriesBox.getChildren().add(entryNode);
+            }
+        } else {
+            // Display entries that match the search query
+            for (DataEntry entry : patientHistoryList) {
+                if (entry.getFirstName().toLowerCase().contains(searchQuery)) {
+                    EntryNode entryNode = new EntryNode(entry);
+                    entriesBox.getChildren().add(entryNode);
+                }
+            }
+        }
+    }
 
     // patientRecord content
     private VBox patientRecord(Stage stage) {
-        LocalDate currentDate = LocalDate.now();
-
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                .appendPattern("EEEE, d ")
-                .appendPattern("MMMM yyyy")
-                .toFormatter();
-
-        String formattedDate = currentDate.format(formatter);
-
-        String[] dateParts = formattedDate.split(" ");
-
-        // Create Text nodes for each part
-        Text dayOfWeekText = new Text(dateParts[0] + " ");
-        dayOfWeekText.setStyle("-fx-fill: #3E3E3E;");
-        dayOfWeekText.getStyleClass().add("dateBoldText");
-        Text dayOfMonthText = new Text(dateParts[1] + " ");
-        dayOfMonthText.setStyle("-fx-fill: #3E3E3E;");
-        dayOfMonthText.getStyleClass().add("dateBoldText");
-        Text restOfDateText = new Text(dateParts[2] + " " + dateParts[3]);
-        restOfDateText.setStyle("-fx-fill: #3E3E3E;");
-
-        // Create an HBox to hold the Text nodes
-        HBox dateBox = new HBox(dayOfWeekText, dayOfMonthText, restOfDateText);
-        dateBox.setAlignment(Pos.CENTER);
-        dateBox.setId("dateField");
-
-        // adminNumber
-        Image adminIcon = new Image(getClass().getResourceAsStream("/assets/adminIcon.png"));
-        ImageView aIcon = new ImageView(adminIcon);
-        Label adminNumber = new Label("Admin 1  ");
-        adminNumber.getStyleClass().add("adminNum");
-        adminNumber.setGraphic(aIcon);
-        adminNumber.setContentDisplay(ContentDisplay.RIGHT);
-
-        // chatBot icon
-        Button chatBot = new Button();
-        chatBot.setId("chatBotBTN");
-        Image chatBotIcon = new Image(getClass().getResourceAsStream("/assets/chatBotIcon.png"));
-        ImageView botIcon = new ImageView(chatBotIcon);
-        chatBot.setGraphic(botIcon);
-
-        HBox tpanel_left = new HBox(dateBox);
-        tpanel_left.setPrefWidth(1057 / 2);
-        tpanel_left.setAlignment(Pos.CENTER_LEFT);
-        HBox tpanel_right = new HBox(adminNumber, chatBot);
-        tpanel_right.setPrefWidth(1057 / 2);
-        tpanel_right.setSpacing(10);
-        tpanel_right.setAlignment(Pos.CENTER_RIGHT);
-
-        HBox topPanel = new HBox(tpanel_left, tpanel_right);
-        topPanel.setMaxHeight(53);
-
+        HBox topPanel = topPanel(stage);
         // bottom panel
         phase1 = new Label("Patient Information");
         phase1.getStyleClass().add("active");
@@ -624,7 +721,7 @@ public class Main extends Application {
         reviewData11.textProperty().bind(Bindings.concat(allergiesField.textProperty()));
         reviewData12.textProperty().bind(Bindings.concat(currentMedField.textProperty()));
 
-        catchData1.setStyle("-fx-font-size: 16px; -fx-margin: 27 0 53 0; -fx-text-fill: #4D4D4D;");
+        catchData1.setStyle("-fx-font-size: 18px; -fx-margin: 27 0 53 0; -fx-text-fill: #4D4D4D;");
 
         First_allTextFields = new TextField[] {
                 firstNameField, middleNameField, lastNameField, dobField, sexField, ppnField,
@@ -841,7 +938,7 @@ public class Main extends Application {
         RoomNumBox.getStyleClass().add("row-pair3");
 
         PhysiciaNameBox = new ComboBox<>(FXCollections.observableArrayList(
-                "Dra. Sarah Michaels - Attending Cardiologist",
+                " sa - Attending Cardiologist",
                 "Dr. Neil Robertson - Chief of Surgery",
                 "Dra. Jessica Yang - Pediatrician",
                 "Dr. John Smith - Emergency Medicine Physician",
@@ -851,8 +948,10 @@ public class Main extends Application {
         PhysiciaNameBox.setOnAction(
                 event -> AttendingPhysicianField.setText(PhysiciaNameBox.getSelectionModel().getSelectedItem()));
         PhysiciaNameBox.getStyleClass().add("row-pair3");
+        PhysiciaNameBox.getStyleClass().add("row-style2");
 
         DiagnosisField.setId("textFieldRow");
+        DiagnosisField.getStyleClass().add("row-style2");
         ExamFindingsField.setId("textFieldRow");
         TreatmentPlanField.setId("textFieldRow");
         ProgressField.setId("textFieldRow");
@@ -945,6 +1044,12 @@ public class Main extends Application {
         dataLabel20 = new Label("Treatment plan");
         dataLabel21 = new Label("Progress");
         dataLabel22 = new Label("Discharge summary");
+    }
+
+    private void setLabelsID() {
+        for (Label label : reviewDataLabels) {
+            label.setId("reviewDataLabels");
+        }
     }
 
     private void updateButtonColor2() {
@@ -1281,7 +1386,8 @@ public class Main extends Application {
 
         @Override
         public String toString() {
-            return "First Name: " + getFirstName();
+            return 
+            "First Name: " + getFirstName() + " Middle Name: " + getMiddleInitial() + " last Name: " + getLastName();
         }
     }
 
@@ -1291,6 +1397,8 @@ public class Main extends Application {
         String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("MM / dd / yyyy"));
 
         Label prnValueLabel = new Label("PRN" + String.format("%08d", counter));
+        
+        patientData.setPRNHashValue(prnValueLabel.getText());
         Label dateLabel = new Label("   |   " + formattedDate);
         prnValueLabel.setStyle("-fx-font-weight: 400; -fx-font-size: 14px; -fx-text-fill: #4D4D4D;");
         dateLabel.setStyle("-fx-font-weight: 400; -fx-font-size: 14px; -fx-text-fill: #4D4D4D;");
@@ -1316,11 +1424,11 @@ public class Main extends Application {
         prPhase3Submit.setId("prsBTN");
         prPhase3Submit.setStyle("-fx-background-color: #105B6A; -fx-text-fill: #FFFFFF; -fx-cursor: hand;");
         prPhase3Submit.setOnAction(e -> {
-            patientData.setPRNHashValue(prnValueLabel.getText());
-
             addPatientToDataList();
-            prnHashValue = "PRN" + String.format("%08d", counter++);
-            prnMap.put(prnHashValue, counter);
+            prnHashValue = "PRN" + String.format("%08d", counter);
+            patientCounter = counter;
+
+            prnMap.put(prnHashValue, counter++);
 
             prnValueLabel.setText(prnHashValue);
         });
@@ -1329,7 +1437,7 @@ public class Main extends Application {
         btnCon.setAlignment(Pos.CENTER);
         btnCon.setSpacing(10);
         VBox thirdStage = new VBox();
-        VBox.setMargin(imgContainer, new Insets(0, 0, 27, 0));
+        VBox.setMargin(imgContainer, new Insets(0, 0, 17, 0));
         VBox.setMargin(btnCon, new Insets(53, 0, 0, 0));
 
         thirdStage.getChildren().addAll(imgContainer, catchData1, PRNnDate, btnCon);
@@ -1345,6 +1453,7 @@ public class Main extends Application {
         newPatient.setFirstName(patientData.getFirstName());
         newPatient.setMiddleInitial(patientData.getMiddleInitial());
         newPatient.setLastName(patientData.getLastName());
+        newPatient.setPRNHashValue(patientData.getPRNHashValue());
 
         patientHistoryList.add(newPatient);
 
@@ -1357,12 +1466,24 @@ public class Main extends Application {
         public EntryNode(DataEntry dataEntry) {
             this.dataEntry = dataEntry;
 
+            Image patientImg = new Image("/assets/patientRecIcon.png");
+            ImageView patientIcon = new ImageView(patientImg);
             Label nameLabel = new Label(dataEntry.getFirstName());
-            Button showDataButton = new Button("Show Data");
-            showDataButton.setStyle("-fx-padding: 250 0;");
+            Label prnLabel = new Label(dataEntry.getPRNHashValue());
+            nameLabel.setStyle("-fx-font-weight: 700; -fx-font-size: 16; -fx-text-fill: #105B6A;");
+            prnLabel.setStyle("-fx-font-weight: 400; -fx-font-size: 12; -fx-text-fill: #105B6A;");
+            VBox labels = new VBox(nameLabel, prnLabel);
+            HBox patientLabel = new HBox(patientIcon, labels);
+            patientLabel.setSpacing(30);
+
+            Button showDataButton = new Button("View Record");
             showDataButton.setOnAction(e -> showData());
 
-            getChildren().addAll(nameLabel, showDataButton);
+            HBox patientRecordContainer = new HBox(patientLabel, showDataButton);
+            patientRecordContainer.setStyle(
+                    "-fx-border-radius: 17; -fx-background-radius: 17; -fx-padding: 28; -fx-background-color: #E8EEEF; -fx-border-width: 2; -fx-border-color: #B2CACD;");
+            
+            getChildren().addAll(patientRecordContainer);
         }
 
         private void showData() {
@@ -1370,26 +1491,8 @@ public class Main extends Application {
         }
     }
 
-    private void searchEntries(VBox mainLayout) {
-        String searchQuery = searchField.getText().toLowerCase();
-
-        VBox entriesBox = new VBox(10);
-
-        for (DataEntry entry : patientHistoryList) {
-            if (entry.getFirstName().toLowerCase().contains(searchQuery)) {
-                EntryNode entryNode = new EntryNode(entry);
-                entriesBox.getChildren().add(entryNode);
-            }
-        }
-
-        ScrollPane scrollPane = new ScrollPane(entriesBox);
-
-        // Replace the old entriesBox with the new one in the main layout
-        mainLayout.getChildren().remove(1);
-        mainLayout.getChildren().add(scrollPane);
-    }
-
     private VBox reviewPanel(Stage stage) {
+        setLabelsID();
 
         Label label1 = new Label("Patient's name");
         Label label2 = new Label("Date of birth");
@@ -1415,23 +1518,62 @@ public class Main extends Application {
         Label label22 = new Label("Progress");
         Label label23 = new Label("Discharge summary");
 
-        Label demographics = new Label("Patient's Demographics and Clinical summary");
+        Label demographics = new Label("Patient's Demographics and");
+        demographics.setStyle("-fx-font-size: 17; -fx-font-weight: 700; -fx-text-fill: #4D4D4D;");
+        Label clinicalSum = new Label("Clinical summary");
+        clinicalSum.setStyle("-fx-font-size: 17; -fx-font-weight: 700; -fx-text-fill: #4D4D4D;");
+
+        VBox reviewLabel = new VBox(demographics, clinicalSum);
 
         GridPane prPanel = new GridPane();
         prPanel.setVgap(5);
 
-        prPanel.addRow(0, label1); prPanel.addRow(1, reviewData0); prPanel.addRow(2, label2); prPanel.addRow(3, reviewData1);
-        prPanel.addRow(4, label3); prPanel.addRow(5, reviewData2); prPanel.addRow(6, label4); prPanel.addRow(7, reviewData3);
-        prPanel.addRow(8, label5); prPanel.addRow(9, reviewData4); prPanel.addRow(10, label6); prPanel.addRow(11, reviewData5);
-        prPanel.addRow(12, label7); prPanel.addRow(13, reviewData6); prPanel.addRow(14, label8); prPanel.addRow(15, reviewData7);
-        prPanel.addRow(16, label9); prPanel.addRow(17, reviewData8); prPanel.addRow(18, label10); prPanel.addRow(19, reviewData9);
-        prPanel.addRow(20, label11); prPanel.addRow(21, reviewData10); prPanel.addRow(22, label12); prPanel.addRow(23, reviewData11);
-        prPanel.addRow(24, label13); prPanel.addRow(25, reviewData12); prPanel.addRow(26, label14); prPanel.addRow(27, reviewData13);
-        prPanel.addRow(28, label15); prPanel.addRow(29, reviewData14); prPanel.addRow(30, label16); prPanel.addRow(31, reviewData15);
-        prPanel.addRow(32, label17); prPanel.addRow(33, reviewData16); prPanel.addRow(34, label18); prPanel.addRow(35, reviewData17);
-        prPanel.addRow(36, label19); prPanel.addRow(37, reviewData18); prPanel.addRow(38, label20); prPanel.addRow(39, reviewData19);
-        prPanel.addRow(40, label21); prPanel.addRow(41, reviewData20); prPanel.addRow(42, label22); prPanel.addRow(43, reviewData21);
-        prPanel.addRow(44, label23); prPanel.addRow(45, reviewData22);
+        prPanel.addRow(0, label1);
+        prPanel.addRow(1, reviewData0);
+        prPanel.addRow(2, label2);
+        prPanel.addRow(3, reviewData1);
+        prPanel.addRow(4, label3);
+        prPanel.addRow(5, reviewData2);
+        prPanel.addRow(6, label4);
+        prPanel.addRow(7, reviewData3);
+        prPanel.addRow(8, label5);
+        prPanel.addRow(9, reviewData4);
+        prPanel.addRow(10, label6);
+        prPanel.addRow(11, reviewData5);
+        prPanel.addRow(12, label7);
+        prPanel.addRow(13, reviewData6);
+        prPanel.addRow(14, label8);
+        prPanel.addRow(15, reviewData7);
+        prPanel.addRow(16, label9);
+        prPanel.addRow(17, reviewData8);
+        prPanel.addRow(18, label10);
+        prPanel.addRow(19, reviewData9);
+        prPanel.addRow(20, label11);
+        prPanel.addRow(21, reviewData10);
+        prPanel.addRow(22, label12);
+        prPanel.addRow(23, reviewData11);
+        prPanel.addRow(24, label13);
+        prPanel.addRow(25, reviewData12);
+        prPanel.addRow(26, label14);
+        prPanel.addRow(27, reviewData13);
+        prPanel.addRow(28, label15);
+        prPanel.addRow(29, reviewData14);
+        prPanel.addRow(30, label16);
+        prPanel.addRow(31, reviewData15);
+        prPanel.addRow(32, label17);
+        prPanel.addRow(33, reviewData16);
+        prPanel.addRow(34, label18);
+        prPanel.addRow(35, reviewData17);
+        prPanel.addRow(36, label19);
+        prPanel.addRow(37, reviewData18);
+        prPanel.addRow(38, label20);
+        prPanel.addRow(39, reviewData19);
+        prPanel.addRow(40, label21);
+        prPanel.addRow(41, reviewData20);
+        prPanel.addRow(42, label22);
+        prPanel.addRow(43, reviewData21);
+        prPanel.addRow(44, label23);
+        prPanel.addRow(45, reviewData22);
 
         ScrollPane scrollPane = new ScrollPane(prPanel);
 
@@ -1439,7 +1581,7 @@ public class Main extends Application {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setId("reviewScrollPanel");
 
-        VBox reviewDataPanel = new VBox(demographics, scrollPane);
+        VBox reviewDataPanel = new VBox(reviewLabel, scrollPane);
         reviewDataPanel.setSpacing(28);
         reviewDataPanel.setId("reviewPanelStyle");
 

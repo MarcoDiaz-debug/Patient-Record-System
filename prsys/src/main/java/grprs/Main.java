@@ -31,8 +31,11 @@ public class Main extends Application {
     }
 
     double W = 1366;
-    double H = 721;
+    double H = 720;
+    private HBox loginPage;
+    private HBox dashBoardAdmin;
     private HBox contentLayout;
+
     private Button patientHistoryBTN;
     private Button patientRecordBTN;
     private HBox container;
@@ -115,6 +118,9 @@ public class Main extends Application {
 
     private int patientCounter;
 
+    // effects
+    private GaussianBlur gaussianBlur = new GaussianBlur(100);
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -122,7 +128,12 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         HBox customTitleBar = CustomTitleBar(stage);
+
+        // main content LAYOUT
         contentLayout = contentLayout(stage);
+        loginPage = loginPage(stage);
+        dashBoardAdmin = dashBoardAdmin(stage);
+        StackPane contentStack = new StackPane(dashBoardAdmin);
 
         // titlebar icon anf label
         Image appIcon = new Image("/assets/prsIcon.png");
@@ -136,7 +147,6 @@ public class Main extends Application {
         ImageView bgIMG = new ImageView(backgroundImage);
 
         // Effects
-        GaussianBlur gaussianBlur = new GaussianBlur(100);
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setBrightness(1);
         Blend blend = new Blend();
@@ -144,15 +154,21 @@ public class Main extends Application {
         blend.setTopInput(colorAdjust);
         blend.setBottomInput(gaussianBlur);
 
-        // Background CLip
-        Rectangle imgClip = new Rectangle(20, 40, W - 40, H - 60);
+        // Background CLip // setID
+        Rectangle imgClip = new Rectangle();
+        imgClip.setTranslateX(20);
+        imgClip.setTranslateY(40);
+        imgClip.setHeight(H - 60);
+        imgClip.setWidth(W - 40);
         imgClip.setArcWidth(80);
         imgClip.setArcHeight(80);
         blurIMG.setClip(imgClip);
         blurIMG.setEffect(blend);
 
-        // Backrgonound Overlay
-        Rectangle bgOverlay = new Rectangle(W - 40, H - 60);
+        // Backrgonound Overlay //setID
+        Rectangle bgOverlay = new Rectangle();
+        bgOverlay.setHeight(H - 60);
+        bgOverlay.setWidth(W - 40);
         bgOverlay.setFill(Color.rgb(46, 84, 87, 0.5));
         bgOverlay.setTranslateX(0);
         bgOverlay.setTranslateY(12);
@@ -163,7 +179,7 @@ public class Main extends Application {
         Rectangle bgIMGpanel = new Rectangle(0, 0, W, H);
         bgIMG.setClip(bgIMGpanel);
 
-        StackPane composite = new StackPane(bgIMG, blurIMG, bgOverlay, contentLayout, customTitleBar);
+        StackPane composite = new StackPane(bgIMG, blurIMG, bgOverlay, contentStack, customTitleBar);
 
         Scene scene = new Scene(composite);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
@@ -240,24 +256,118 @@ public class Main extends Application {
         return container;
     }
 
-    private HBox dashboardLayout(Stage stage){
+    private HBox loginPage(Stage stage) {
+        // background image PNG
+        Image backgroundImage = new Image("/assets/LoginBG_blur.png");
+        ImageView bgIMG = new ImageView(backgroundImage);
+        ImageView bgIMG2 = new ImageView(backgroundImage);
+
+        // Effects
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setBrightness(1);
+        Blend blend = new Blend();
+        blend.setMode(BlendMode.OVERLAY);
+        blend.setTopInput(colorAdjust);
+        blend.setBottomInput(gaussianBlur);
+
+        Rectangle blurBG = new Rectangle(W, H);
+        bgIMG.setClip(blurBG);
+
+        Rectangle bgOverlay = new Rectangle(0, 0, W - 258, H - 166);
+        bgOverlay.setTranslateX(-1);
+        bgOverlay.setTranslateY(-1);
+        bgOverlay.setStyle("-fx-fill: rgb(57, 107, 113, 0.75);");
+        bgOverlay.setArcWidth(80);
+        bgOverlay.setArcHeight(80);
+
+        Rectangle bgIMGpanel = new Rectangle(128, 82, W - 258, H - 166);
+        bgIMGpanel.setArcWidth(80);
+        bgIMGpanel.setArcHeight(80);
+        bgIMG2.setClip(bgIMGpanel);
+        bgIMG2.setEffect(blend);
+
+        // login phase
+        Label loginLb = new Label("Log in");
+        loginLb.setStyle("-fx-font-weight: 700; -fx-font-size: 35;");
+        Label userLb = new Label("Username");
+        TextField usernameTf = new TextField();
+        Label passLb = new Label("Password");
+        PasswordField passwordPf = new PasswordField();
+        Button loginBtn = new Button("Log in");
+        loginBtn.setOnAction(e -> {
+
+            if (usernameTf.getText().equals("Frontdesk1") && passwordPf.getText().equals("ospa123")) {
+                // set please visible
+            } else {
+                // 
+            }
+
+        });
+
+        VBox.setMargin(loginLb, new Insets(0, 0, 24, 0));
+        VBox.setMargin(userLb, new Insets(0, 0, 17, 0));
+        VBox.setMargin(passLb, new Insets(17, 0, 17, 0));
+        VBox.setMargin(passwordPf, new Insets(0, 0, 62, 0));
+
+        VBox left = new VBox(loginLb, userLb, usernameTf, passLb, passwordPf, loginBtn);
+
+        Label l1 = new Label("Welcome to OSPA's");
+        l1.setStyle("-fx-font-size: 20; -fx-padding: 0 0 0 35;");
+        Label l2 = new Label("Outpatient Record System");
+        l2.setStyle("-fx-font-size: 35; -fx-font-weight: 700; -fx-padding: 0 0 0 30; -fx-letter-spacing: -35;");
+        Label l3 = new Label(
+                "Please log in to streamline your outpatient healthcare \r\n" + "tasks and provide exceptional care.");
+        l3.setStyle("-fx-font-size: 16; -fx-padding: 0 0 0 35;");
+        Image loginIMG = new Image("/assets/Login_IMG.png");
+        ImageView loginIV = new ImageView(loginIMG);
+
+        VBox.setMargin(l1, new Insets(40, 0, 0, 0));
+        VBox.setMargin(l3, new Insets(10, 0, 80, 0));
+        VBox right = new VBox(l1, l2, l3, loginIV);
+
+        left.setId("loginLeft");
+        right.setId("loginRight");
+        HBox container = new HBox(left, right);
+        container.setStyle("-fx-padding: 10;");
+        container.setPrefHeight(H - 166);
+        container.setPrefWidth(W - 258);
+        container.setTranslateX(128);
+        container.setTranslateY(82);
+        container.setSpacing(10);
+
+        StackPane loginBG = new StackPane(bgIMG, bgIMG2, bgOverlay, container);
+        loginBG.setAlignment(Pos.CENTER);
+
+        HBox loginContainer = new HBox(loginBG);
+        loginContainer.setId("login-style");
+
+        return loginContainer;
+    }
+
+    private HBox dashBoardAdmin(Stage stage) {
         // top container
         Label label = new Label();
         label.setText("DASHBOARD");
-        
+        Label welcome = new Label("Welcome back, Frontdesk");
+        VBox leftLb = new VBox(label, welcome);
+
+        Image dbImage = new Image("/assets/dashBoard_prsIcon.png");
+        ImageView dbIcon = new ImageView(dbImage);
+        HBox dbIconBox = new HBox(dbIcon);
+
+        HBox topContainer = new HBox(leftLb, dbIconBox);
+
         // middle container
 
-        
         // add for loop here
         ScrollPane scrollPane = new ScrollPane();
         VBox dbHistory = new VBox(scrollPane);
 
         // buttom container
-        
 
         HBox btnCon = new HBox();
 
-        VBox dbContent = new VBox(label, dbHistory);
+        VBox dbContent = new VBox(topContainer);
 
         HBox container = new HBox(dbContent);
 
@@ -1386,8 +1496,8 @@ public class Main extends Application {
 
         @Override
         public String toString() {
-            return 
-            "First Name: " + getFirstName() + " Middle Name: " + getMiddleInitial() + " last Name: " + getLastName();
+            return "First Name: " + getFirstName() + " Middle Name: " + getMiddleInitial() + " last Name: "
+                    + getLastName();
         }
     }
 
@@ -1397,7 +1507,7 @@ public class Main extends Application {
         String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("MM / dd / yyyy"));
 
         Label prnValueLabel = new Label("PRN" + String.format("%08d", counter));
-        
+
         patientData.setPRNHashValue(prnValueLabel.getText());
         Label dateLabel = new Label("   |   " + formattedDate);
         prnValueLabel.setStyle("-fx-font-weight: 400; -fx-font-size: 14px; -fx-text-fill: #4D4D4D;");
@@ -1482,7 +1592,7 @@ public class Main extends Application {
             HBox patientRecordContainer = new HBox(patientLabel, showDataButton);
             patientRecordContainer.setStyle(
                     "-fx-border-radius: 17; -fx-background-radius: 17; -fx-padding: 28; -fx-background-color: #E8EEEF; -fx-border-width: 2; -fx-border-color: #B2CACD;");
-            
+
             getChildren().addAll(patientRecordContainer);
         }
 

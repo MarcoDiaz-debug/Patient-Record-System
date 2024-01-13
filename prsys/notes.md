@@ -51,3 +51,6 @@ private HBox patientRecord(Stage stage){
        
         return container;
     }
+
+OSPA Doctors    |   Availability    |   No. of appointments
+1 Dra. Sarah Michaels   |   Available   |   4   
